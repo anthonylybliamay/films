@@ -1,8 +1,33 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getFilms } from "@/lib/ghibli";
+import type { Film } from "@/lib/ghibli";
 
-export default async function FilmsPage() {
-  const films = await getFilms();
+export default function FilmsPage() {
+  const [films, setFilms] = useState<Film[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchFilms = async () => {
+      try {
+        const data = await getFilms();
+        setFilms(data);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchFilms();
+  }, []);
+
+  const filteredFilms = films.filter((film) =>
+    film.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    film.original_title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    film.original_title_romanised.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <main className="min-h-screen bg-transparent text-slate-900">
@@ -22,10 +47,30 @@ export default async function FilmsPage() {
             <span className="text-[#d94d33]">•</span>
             <span>Actualisé toutes les 2 minutes</span>
           </div>
+          
+          <div className="mt-6">
+            <input
+              type="text"
+              placeholder="Rechercher un film..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full rounded-[1.5rem] border border-[#d99f8b] bg-white px-6 py-3 text-slate-900 placeholder-[#a23524] outline-none transition focus:border-[#d94d33] focus:ring-2 focus:ring-[#d94d33]/20"
+            />
+            {searchTerm && (
+              <p className="mt-3 text-sm text-[#7d5a4e]">
+                {filteredFilms.length} résultat{filteredFilms.length > 1 ? "s" : ""} pour "<strong>{searchTerm}</strong>"
+              </p>
+            )}
+          </div>
         </header>
 
-        <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {films.map((film) => (
+        {isLoading ? (
+          <div className="flex justify-center py-12">
+            <p className="text-[#7d5a4e]">Chargement des films...</p>
+          </div>
+        ) : filteredFilms.length > 0 ? (
+          <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {filteredFilms.map((film) => (
             <Link
               key={film.id}
               href={`/films/${film.id}`}
@@ -58,7 +103,20 @@ export default async function FilmsPage() {
               </div>
             </Link>
           ))}
-        </section>
+          </section>
+        ) : (
+          <div className="rounded-[2rem] border border-[#d99f8b] bg-[#fff7f1] p-12 text-center">
+            <p className="text-lg text-[#7d5a4e]">
+              Aucun film ne correspond à votre recherche "<strong>{searchTerm}</strong>".
+            </p>
+            <button
+              onClick={() => setSearchTerm("")}
+              className="mt-4 inline-flex items-center rounded-full bg-[#d94d33] px-6 py-2 text-sm font-semibold text-white transition hover:bg-[#b33e2a]"
+            >
+              Réinitialiser la recherche
+            </button>
+          </div>
+        )}
       </div>
     </main>
   );

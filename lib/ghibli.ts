@@ -1,3 +1,5 @@
+"use server";
+
 export type Film = {
   id: string;
   title: string;
@@ -38,22 +40,33 @@ async function translateText(text: string): Promise<string> {
     
     // Si le texte est court, le traduire directement
     if (text.length <= MAX_CHARS) {
-      const params = new URLSearchParams({
-        q: text,
-        langpair: "en|fr",
-      });
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 5000); // 5 secondes timeout
       
-      const response = await fetch(`${TRANSLATION_API}?${params}`, {
-        next: { revalidate: 604800 },
-      });
-      
-      if (!response.ok) return text;
-      
-      const data = await response.json() as { responseData?: { translatedText?: string } };
-      const translated = data.responseData?.translatedText || text;
-      
-      translationCache[text] = translated;
-      return translated;
+      try {
+        const params = new URLSearchParams({
+          q: text,
+          langpair: "en|fr",
+        });
+        
+        const response = await fetch(`${TRANSLATION_API}?${params}`, {
+          next: { revalidate: 604800 },
+          signal: controller.signal,
+        });
+        
+        clearTimeout(timeout);
+        
+        if (!response.ok) return text;
+        
+        const data = await response.json() as { responseData?: { translatedText?: string } };
+        const translated = data.responseData?.translatedText || text;
+        
+        translationCache[text] = translated;
+        return translated;
+      } catch (error) {
+        clearTimeout(timeout);
+        return text;
+      }
     }
     
     // Pour les textes longs, diviser en chunks
@@ -73,9 +86,13 @@ async function translateText(text: string): Promise<string> {
     }
     if (currentChunk) chunks.push(currentChunk);
     
-    // Traduire chaque chunk
-    const translatedChunks = await Promise.all(
-      chunks.map(async (chunk) => {
+    // Traduire chaque chunk séquentiellement avec délai pour éviter de surcharger l'API
+    const translatedChunks = [];
+    for (const chunk of chunks) {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 5000);
+      
+      try {
         const params = new URLSearchParams({
           q: chunk,
           langpair: "en|fr",
@@ -83,14 +100,25 @@ async function translateText(text: string): Promise<string> {
         
         const response = await fetch(`${TRANSLATION_API}?${params}`, {
           next: { revalidate: 604800 },
+          signal: controller.signal,
         });
         
-        if (!response.ok) return chunk;
+        clearTimeout(timeout);
         
-        const data = await response.json() as { responseData?: { translatedText?: string } };
-        return data.responseData?.translatedText || chunk;
-      })
-    );
+        if (response.ok) {
+          const data = await response.json() as { responseData?: { translatedText?: string } };
+          translatedChunks.push(data.responseData?.translatedText || chunk);
+        } else {
+          translatedChunks.push(chunk);
+        }
+      } catch (error) {
+        clearTimeout(timeout);
+        translatedChunks.push(chunk);
+      }
+      
+      // Petit délai entre les chunks pour éviter de surcharger l'API
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
     
     const translated = translatedChunks.join(" ").trim();
     translationCache[text] = translated;
@@ -116,14 +144,18 @@ async function fetchGhibli<T>(path: string): Promise<T> {
 export async function getFilms(): Promise<Film[]> {
   const films = await fetchGhibli<Film[]>("/films");
   
-  // Traduire chaque film
-  const translatedFilms = await Promise.all(
-    films.map(async (film) => ({
+  // Traduire chaque film séquentiellement pour éviter de surcharger l'API
+  const translatedFilms = [];
+  for (const film of films) {
+    const translated = {
       ...film,
       title: await translateText(film.title),
       description: await translateText(film.description),
-    }))
-  );
+    };
+    translatedFilms.push(translated);
+    // Petit délai entre les films pour ne pas surcharger l'API
+    await new Promise(resolve => setTimeout(resolve, 50));
+  }
   
   return translatedFilms.sort((a, b) => Number(b.release_date) - Number(a.release_date));
 }
