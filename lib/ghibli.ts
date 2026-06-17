@@ -153,7 +153,6 @@ export async function getFilms(): Promise<Film[]> {
     // Petit délai entre les films pour ne pas surcharger l'API
     await new Promise(resolve => setTimeout(resolve, 50));
   }
-  
   return translatedFilms.sort((a, b) => Number(b.release_date) - Number(a.release_date));
 }
 
