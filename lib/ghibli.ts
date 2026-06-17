@@ -41,7 +41,6 @@ async function translateText(text: string): Promise<string> {
     // Si le texte est court, le traduire directement
     if (text.length <= MAX_CHARS) {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 5000); // 5 secondes timeout
       
       try {
         const params = new URLSearchParams({
@@ -54,7 +53,6 @@ async function translateText(text: string): Promise<string> {
           signal: controller.signal,
         });
         
-        clearTimeout(timeout);
         
         if (!response.ok) return text;
         
@@ -64,7 +62,6 @@ async function translateText(text: string): Promise<string> {
         translationCache[text] = translated;
         return translated;
       } catch (error) {
-        clearTimeout(timeout);
         return text;
       }
     }
