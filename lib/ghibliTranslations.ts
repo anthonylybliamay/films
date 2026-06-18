@@ -85,12 +85,12 @@ export const filmTranslations: Record<string, FilmTranslation> = {
   "Arrietty": {
     title: "Arrietty, le petit monde des chapardeurs",
     description:
-      "Arrietty, une adolescente minuscule, vit en secret avec sa famille en 'empruntant' des objets aux humains. Leur paix est menacée lorsqu'un garçon humain les découvre.",
+      "Arrietty, une adolescente minuscule de quatorze ans, vit en secret avec sa famille, se construisant un foyer à partir d'objets « empruntés » aux habitants humains de la maison. Cependant, la vie des Clock bascule lorsqu'un jeune garçon découvre Arrietty.",
   },
   "From Up on Poppy Hill": {
     title: "La Colline aux coquelicots",
     description:
-      "En 1963 à Yokohama, Umi élève un drapeau chaque matin en mémoire des marins. Elle se lie d'amitié avec Shun, et ensemble ils affrontent des épreuves tout en préservant leur passé et leur avenir.",
+      "En 1963 à Yokohama, Umi, une jeune fille de seize ans, élève un drapeau chaque matin en mémoire des marins.  Shun, un garçon de dix-sept ans, aperçoit toujours ce pavillon depuis la mer lorsqu'il se rend à l'école en remorqueur. Peu à peu, un lien se tisse entre eux, mais une épreuve soudaine les confronte. Malgré tout, ils persévèrent, sans fuir les difficultés de la vie.",
   },
   "The Wind Rises": {
     title: "Le Vent se lève",
@@ -103,19 +103,19 @@ export const filmTranslations: Record<string, FilmTranslation> = {
       "Un coupeur de bambou découvre une petite fille lumineuse dans une tige de bambou et l'élève comme sa fille. La jeune Princesse Kaguya grandit et attire l'attention du monde, révélant sa nature divine.",
   },
   "When Marnie Was There": {
-    title: "Quand Marnie était là",
+    title: "Souvenirs de Marnie",
     description:
       "Anna, placée chez des parents d'accueil en bord de mer, découvre un manoir abandonné et y rencontre Marnie, une mystérieuse amie d'été qui l'aide à comprendre ses origines.",
   },
   "The Red Turtle": {
     title: "La Tortue rouge",
     description:
-      "Un homme échoué sur une île déserte tente de s'enfuir en mer, mais ses embarcations sont détruites. Il croise une tortue rouge géante qui bouleverse son destin sur l'île.",
+      "Un homme, emporté par une tempête, se réveille sur une plage. Il découvre qu'il se trouve sur une île déserte regorgeant d'eau douce, de fruits et d'une dense forêt de bambous. Il construit un radeau de bambou et tente de prendre la mer, mais celui-ci est détruit par un monstre invisible, le forçant à retourner sur l'île. Il se retrouve ensuite face à une tortue rouge géante qui le fixe du regard et le contraint à retourner sur l'île.",
   },
   "Earwig and the Witch": {
-    title: "Earwig et la sorcière",
+    title: "Aya et la sorcière",
     description:
-      "Une orpheline nommée Earwig est adoptée par une sorcière et découvre une maison étrange remplie de mystères et de magie.",
+      "Une orpheline nommée Aya est adoptée par une sorcière et découvre une maison étrange remplie de mystères et de magie.",
   },
 };
 
