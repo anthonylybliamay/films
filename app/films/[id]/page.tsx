@@ -7,6 +7,7 @@ import type { Film } from "@/lib/ghibli";
 import { useLanguage } from "@/context/LanguageContext";
 import { trailers } from "@/lib/trailers";
 import { translations } from "@/lib/translations";
+import RatingBar from "@/components/RatingBar";
 
 type FilmProps = {
   params: Promise<{
@@ -173,7 +174,7 @@ export default function FilmDetailPage({ params }: FilmProps) {
               {people?.length > 0 && (
                 <section className="mt-12">
                   <h2 className="text-3xl font-bold mb-6">
-                    🎭 Personnages
+                    {t.characters}
                   </h2>
 
                   <div className="grid sm:grid-cols-2 gap-4">
@@ -187,17 +188,18 @@ export default function FilmDetailPage({ params }: FilmProps) {
                         </h3>
 
                         <p className="text-sm text-[#7d5a4e]">
-                          {person.gender}
+                          {t.gender} {person.gender}
                         </p>
 
                         <p className="text-sm text-[#7d5a4e]">
-                          Yeux : {person.eye_color}
+                          {t.eye_color} {person.eye_color}
                         </p>
                       </div>
                     ))}
                   </div>
                 </section>
               )}
+              <RatingBar filmId={id} label={t.yourRating || "Your Rating"} />
             </div>
           </aside>
         </section>
