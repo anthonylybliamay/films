@@ -41,6 +41,18 @@ export default function FilmDetailPage({ params }: FilmProps) {
     };
   }, [id, language]);
 
+  if (isLoading) {
+    return (
+      <main className="min-h-screen bg-transparent text-slate-900">
+        <div className="mx-auto flex min-h-screen max-w-4xl flex-col items-center justify-center gap-6 px-6 text-center">
+          <div className="space-y-4 rounded-[2rem] border border-[#d99f8b] bg-[#fff7f1] p-10 paper-panel">
+            <p className="text-sm uppercase tracking-[0.35em] text-[#a23524]">Chargement du film...</p>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
   if (!film) {
     return (
       <main className="min-h-screen bg-transparent text-slate-900">
