@@ -1,26 +1,111 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { getFilms } from "@/lib/ghibli";
 import type { Film } from "@/lib/ghibli";
+
+const CACHE_KEY = "ghibliFilmsCache";
+const CACHE_TTL = 1000 * 60 * 60; // 1 heure
+
+type FilmCache = {
+  timestamp: number;
+  films: Film[];
+};
+
+function getCachedFilms(): FilmCache | null {
+  if (typeof window === "undefined") return null;
+
+  try {
+    const raw = window.localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+
+    const cached = JSON.parse(raw) as FilmCache;
+    if (!cached?.timestamp || !Array.isArray(cached?.films)) return null;
+
+    return cached;
+  } catch {
+    return null;
+  }
+}
+
+function saveCachedFilms(films: Film[]) {
+  if (typeof window === "undefined") return;
+
+  const cache: FilmCache = {
+    timestamp: Date.now(),
+    films,
+  };
+
+  window.localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
+}
+
+function isReloadNavigation() {
+  if (typeof window === "undefined") return false;
+
+  const entries = performance.getEntriesByType("navigation");
+  if (entries.length > 0) {
+    return (entries[0] as PerformanceNavigationTiming).type === "reload";
+  }
+
+  return (performance as unknown as { navigation?: { type?: number } })?.navigation?.type === 1;
+}
 
 export default function FilmsPage() {
   const [films, setFilms] = useState<Film[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const refreshTimerRef = useRef<number | null>(null);
+
+  const scheduleRefresh = (timestamp: number) => {
+    if (refreshTimerRef.current) {
+      window.clearTimeout(refreshTimerRef.current);
+    }
+
+    const delay = Math.max(0, CACHE_TTL - (Date.now() - timestamp));
+    refreshTimerRef.current = window.setTimeout(() => {
+      fetchFilms(true);
+    }, delay);
+  };
+
+  const fetchFilms = async (force = false) => {
+    try {
+      if (!force) {
+        const cache = getCachedFilms();
+        if (cache) {
+          const elapsed = Date.now() - cache.timestamp;
+          const isFresh = elapsed < CACHE_TTL;
+
+          setFilms(cache.films);
+          setIsLoading(false);
+          scheduleRefresh(cache.timestamp);
+
+          if (isFresh && !isReloadNavigation()) {
+            return;
+          }
+        }
+      }
+
+      setIsLoading(true);
+      const data = await getFilms();
+      setFilms(data);
+      saveCachedFilms(data);
+      scheduleRefresh(Date.now());
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchFilms = async () => {
-      try {
-        const data = await getFilms();
-        setFilms(data);
-      } finally {
-        setIsLoading(false);
+    fetchFilms(isReloadNavigation());
+
+    return () => {
+      if (refreshTimerRef.current) {
+        window.clearTimeout(refreshTimerRef.current);
       }
     };
-
-    fetchFilms();
   }, []);
 
   const filteredFilms = films.filter((film) =>
@@ -45,7 +130,7 @@ export default function FilmsPage() {
           <div className="flex flex-wrap gap-3 text-sm text-[#7d5a4e]">
             <span>{films.length} films disponibles</span>
             <span className="text-[#d94d33]">•</span>
-            <span>Actualisé toutes les 2 minutes</span>
+            <span>Actualisé automatiquement toutes les heures</span>
           </div>
           
           <div className="mt-6">
