@@ -87,3 +87,23 @@ export async function getFilm(id: string, language: "fr" | "en" = "en"): Promise
     return null;
   }
 }
+
+export async function getPeople(urls: string[]) {
+  const validUrls = urls.filter(
+    (url) =>
+      url &&
+      url !== "https://ghibliapi.vercel.app/people/"
+  );
+
+  if (validUrls.length === 0) {
+    return [];
+  }
+
+  return Promise.all(
+    validUrls.map(async (url) => {
+      const res = await fetch(url);
+
+      return res.json();
+    })
+  );
+}

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
-import { getFilm } from "@/lib/ghibli";
+import { getFilm, getPeople } from "@/lib/ghibli";
 import type { Film } from "@/lib/ghibli";
 import { useLanguage } from "@/context/LanguageContext";
 import { trailers } from "@/lib/trailers";
@@ -14,11 +14,13 @@ type FilmProps = {
   }>;
 };
 
+
 export default function FilmDetailPage({ params }: FilmProps) {
   const { id } = use(params);
   const { language } = useLanguage();
   const [film, setFilm] = useState<Film | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [people, setPeople] = useState<any[]>([]);
   const trailerId = trailers[id];
   const t = translations[language];
 
@@ -29,6 +31,12 @@ export default function FilmDetailPage({ params }: FilmProps) {
       .then((f) => {
         if (!mounted) return;
         setFilm(f);
+
+        if (f && f.people && f.people.length > 0) {
+          getPeople(f.people).then((p) => {
+            if (mounted) setPeople(p);
+          });
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -116,7 +124,7 @@ export default function FilmDetailPage({ params }: FilmProps) {
                   </div>
                 </section>
               )}
-              
+
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="rounded-3xl bg-[#fff3ea] p-5">
                   <p className="text-sm uppercase tracking-[0.25em] text-[#7d5a4e]">{t.director}</p>
@@ -162,14 +170,34 @@ export default function FilmDetailPage({ params }: FilmProps) {
                 <p className="font-semibold text-slate-950">{t.api_url}</p>
                 <p className="mt-2 break-all text-[#d94d33]">{film.url}</p>
               </div>
-              <div className="rounded-3xl bg-[#fff3ea] p-5">
-                <p className="font-semibold text-slate-950">{t.characters}</p>
-                <p className="mt-2 text-[#7d5a4e]">{film.people.length || "N/A"}</p>
-              </div>
-              <div className="rounded-3xl bg-[#fff3ea] p-5">
-                <p className="font-semibold text-slate-950">{t.locations}</p>
-                <p className="mt-2 text-[#7d5a4e]">{film.locations.length || "N/A"}</p>
-              </div>
+              {people?.length > 0 && (
+                <section className="mt-12">
+                  <h2 className="text-3xl font-bold mb-6">
+                    🎭 Personnages
+                  </h2>
+
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {people.map((person: any) => (
+                      <div
+                        key={person.id}
+                        className="rounded-xl bg-[#fff7f1] border border-[#d99f8b] p-4"
+                      >
+                        <h3 className="font-semibold text-slate-950">
+                          {person.name}
+                        </h3>
+
+                        <p className="text-sm text-[#7d5a4e]">
+                          {person.gender}
+                        </p>
+
+                        <p className="text-sm text-[#7d5a4e]">
+                          Yeux : {person.eye_color}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
             </div>
           </aside>
         </section>
