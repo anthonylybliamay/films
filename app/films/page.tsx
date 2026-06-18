@@ -4,6 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { getFilms } from "@/lib/ghibli";
 import type { Film } from "@/lib/ghibli";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations } from "@/lib/translations";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const CACHE_KEY = "ghibliFilmsCache";
 const CACHE_TTL = 1000 * 60 * 60; // 1 heure
@@ -56,7 +59,9 @@ export default function FilmsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const refreshTimerRef = useRef<number | null>(null);
+const { language } = useLanguage();
 
+  const t = translations[language];
   const scheduleRefresh = (timestamp: number) => {
     if (refreshTimerRef.current) {
       window.clearTimeout(refreshTimerRef.current);
@@ -116,34 +121,34 @@ export default function FilmsPage() {
 
   return (
     <main className="min-h-screen bg-transparent text-slate-900">
+      <LanguageSwitcher />
       <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-10 sm:px-8">
         <header className="space-y-4 rounded-[2rem] border border-[#d99f8b] bg-[#fff7f1] p-8 paper-panel">
-          <p className="text-sm uppercase tracking-[0.35em] text-[#a23524]">Catalogue Ghibli</p>
+          <p className="text-sm uppercase tracking-[0.35em] text-[#a23524]">{t.catalog}</p>
           <div className="space-y-3">
             <h1 className="text-4xl font-semibold leading-tight text-slate-950 sm:text-5xl">
-              Découvrez l'univers magique de Studio Ghibli
+                {t.heroTitle}
             </h1>
             <p className="max-w-3xl text-base leading-7 text-[#7d5a4e]">
-              Une application immersive qui récupère les films depuis l'API Ghibli et vous invite à explorer chaque fiche.
-            </p>
+  {t.heroDescription}            </p>
           </div>
           <div className="flex flex-wrap gap-3 text-sm text-[#7d5a4e]">
-            <span>{films.length} films disponibles</span>
+            <span>{films.length} {t.disponible}</span>
             <span className="text-[#d94d33]">•</span>
-            <span>Actualisé automatiquement toutes les heures</span>
+            <span>{t.actualise}</span>
           </div>
           
           <div className="mt-6">
             <input
               type="text"
-              placeholder="Rechercher un film..."
+              placeholder={t.searchPlaceholder}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full rounded-[1.5rem] border border-[#d99f8b] bg-white px-6 py-3 text-slate-900 placeholder-[#a23524] outline-none transition focus:border-[#d94d33] focus:ring-2 focus:ring-[#d94d33]/20"
             />
             {searchTerm && (
               <p className="mt-3 text-sm text-[#7d5a4e]">
-                {filteredFilms.length} résultat{filteredFilms.length > 1 ? "s" : ""} pour "<strong>{searchTerm}</strong>"
+                {filteredFilms.length} {t.resultats} {filteredFilms.length > 1 ? "s" : ""} {t.pour} "<strong>{searchTerm}</strong>"
               </p>
             )}
           </div>
@@ -151,7 +156,7 @@ export default function FilmsPage() {
 
         {isLoading ? (
           <div className="flex justify-center py-12">
-            <p className="text-[#7d5a4e]">Chargement des films...</p>
+            <p className="text-[#7d5a4e]"> {t.loading} </p>
           </div>
         ) : filteredFilms.length > 0 ? (
           <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -192,13 +197,13 @@ export default function FilmsPage() {
         ) : (
           <div className="rounded-[2rem] border border-[#d99f8b] bg-[#fff7f1] p-12 text-center">
             <p className="text-lg text-[#7d5a4e]">
-              Aucun film ne correspond à votre recherche "<strong>{searchTerm}</strong>".
+              {t.aucunFilm} "<strong>{searchTerm}</strong>".
             </p>
             <button
               onClick={() => setSearchTerm("")}
               className="mt-4 inline-flex items-center rounded-full bg-[#d94d33] px-6 py-2 text-sm font-semibold text-white transition hover:bg-[#b33e2a]"
             >
-              Réinitialiser la recherche
+              {t.resetSearch}
             </button>
           </div>
         )}
