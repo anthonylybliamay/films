@@ -8,7 +8,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
-const CACHE_KEY = "ghibliFilmsCache";
+const CACHE_KEY_BASE = "ghibliFilmsCache";
 const CACHE_TTL = 1000 * 60 * 60; // 1 heure
 
 type FilmCache = {
@@ -16,11 +16,11 @@ type FilmCache = {
   films: Film[];
 };
 
-function getCachedFilms(): FilmCache | null {
+function getCachedFilms(language: string): FilmCache | null {
   if (typeof window === "undefined") return null;
 
   try {
-    const raw = window.localStorage.getItem(CACHE_KEY);
+    const raw = window.localStorage.getItem(`${CACHE_KEY_BASE}:${language}`);
     if (!raw) return null;
 
     const cached = JSON.parse(raw) as FilmCache;
@@ -32,7 +32,7 @@ function getCachedFilms(): FilmCache | null {
   }
 }
 
-function saveCachedFilms(films: Film[]) {
+function saveCachedFilms(films: Film[], language: string) {
   if (typeof window === "undefined") return;
 
   const cache: FilmCache = {
@@ -40,7 +40,7 @@ function saveCachedFilms(films: Film[]) {
     films,
   };
 
-  window.localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
+  window.localStorage.setItem(`${CACHE_KEY_BASE}:${language}`, JSON.stringify(cache));
 }
 
 function isReloadNavigation() {
@@ -76,7 +76,7 @@ const { language } = useLanguage();
   const fetchFilms = async (force = false) => {
     try {
       if (!force) {
-        const cache = getCachedFilms();
+        const cache = getCachedFilms(language);
         if (cache) {
           const elapsed = Date.now() - cache.timestamp;
           const isFresh = elapsed < CACHE_TTL;
@@ -92,9 +92,9 @@ const { language } = useLanguage();
       }
 
       setIsLoading(true);
-      const data = await getFilms();
+      const data = await getFilms(language);
       setFilms(data);
-      saveCachedFilms(data);
+      saveCachedFilms(data, language);
       scheduleRefresh(Date.now());
     } catch (error) {
       console.error(error);
@@ -111,7 +111,7 @@ const { language } = useLanguage();
         window.clearTimeout(refreshTimerRef.current);
       }
     };
-  }, []);
+  }, [language]);
 
   const filteredFilms = films.filter((film) =>
     film.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -121,7 +121,6 @@ const { language } = useLanguage();
 
   return (
     <main className="min-h-screen bg-transparent text-slate-900">
-      <LanguageSwitcher />
       <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-10 sm:px-8">
         <header className="space-y-4 rounded-[2rem] border border-[#d99f8b] bg-[#fff7f1] p-8 paper-panel">
           <p className="text-sm uppercase tracking-[0.35em] text-[#a23524]">{t.catalog}</p>

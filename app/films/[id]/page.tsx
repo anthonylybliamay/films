@@ -1,5 +1,10 @@
+"use client";
+
 import Link from "next/link";
+import { use, useEffect, useState } from "react";
 import { getFilm } from "@/lib/ghibli";
+import type { Film } from "@/lib/ghibli";
+import { useLanguage } from "@/context/LanguageContext";
 import { trailers } from "@/lib/trailers";
 
 type FilmProps = {
@@ -8,10 +13,33 @@ type FilmProps = {
   }>;
 };
 
-export default async function FilmDetailPage({ params }: FilmProps) {
-  const { id } = await params;
-  const film = await getFilm(id);
+export default function FilmDetailPage({ params }: FilmProps) {
+  const { id } = use(params);
+  const { language } = useLanguage();
+  const [film, setFilm] = useState<Film | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const trailerId = trailers[id];
+
+  useEffect(() => {
+    let mounted = true;
+    setIsLoading(true);
+    getFilm(id, language)
+      .then((f) => {
+        if (!mounted) return;
+        setFilm(f);
+      })
+      .catch((err) => {
+        console.error(err);
+        if (mounted) setFilm(null);
+      })
+      .finally(() => {
+        if (mounted) setIsLoading(false);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, [id, language]);
 
   if (!film) {
     return (
