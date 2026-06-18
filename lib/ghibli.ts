@@ -149,6 +149,7 @@ export async function getFilms(): Promise<Film[]> {
       title: await translateText(film.title),
       description: await translateText(film.description),
     };
+    console.log(`Traduction terminée pour le film: ${translated.title}, ${translated.id} `);
     translatedFilms.push(translated);
     // Petit délai entre les films pour ne pas surcharger l'API
     await new Promise(resolve => setTimeout(resolve, 50));

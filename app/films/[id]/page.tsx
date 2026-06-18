@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getFilm } from "@/lib/ghibli";
+import { trailers } from "@/lib/trailers";
 
 type FilmProps = {
   params: Promise<{
@@ -10,6 +11,7 @@ type FilmProps = {
 export default async function FilmDetailPage({ params }: FilmProps) {
   const { id } = await params;
   const film = await getFilm(id);
+  const trailerId = trailers[id];
 
   if (!film) {
     return (
@@ -56,7 +58,23 @@ export default async function FilmDetailPage({ params }: FilmProps) {
                 <h2 className="text-xl font-semibold text-slate-950">Synopsis</h2>
                 <p className="leading-7 text-[#7d5a4e]">{film.description}</p>
               </div>
+              {trailerId && (
+                <section className="mt-12">
+                  <h2 className="mb-4 text-2xl font-semibold text-white">
+                    🎬 Bande-annonce
+                  </h2>
 
+                  <div className="overflow-hidden rounded-3xl border border-slate-800">
+                    <iframe
+                      className="aspect-video w-full"
+                      src={`https://www.youtube.com/embed/${trailerId}`}
+                      title={`${film.title} Trailer`}
+                      allowFullScreen
+                    />
+                  </div>
+                </section>
+              )}
+              
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="rounded-3xl bg-[#fff3ea] p-5">
                   <p className="text-sm uppercase tracking-[0.25em] text-[#7d5a4e]">Réalisateur</p>
