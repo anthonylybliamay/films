@@ -59,8 +59,7 @@ export default function FilmsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const refreshTimerRef = useRef<number | null>(null);
-const { language } = useLanguage();
-
+  const { language } = useLanguage();
   const t = translations[language];
   const scheduleRefresh = (timestamp: number) => {
     if (refreshTimerRef.current) {
@@ -126,17 +125,17 @@ const { language } = useLanguage();
           <p className="text-sm uppercase tracking-[0.35em] text-[#a23524]">{t.catalog}</p>
           <div className="space-y-3">
             <h1 className="text-4xl font-semibold leading-tight text-slate-950 sm:text-5xl">
-                {t.heroTitle}
+              {t.heroTitle}
             </h1>
             <p className="max-w-3xl text-base leading-7 text-[#7d5a4e]">
-  {t.heroDescription}            </p>
+              {t.heroDescription}            </p>
           </div>
           <div className="flex flex-wrap gap-3 text-sm text-[#7d5a4e]">
             <span>{films.length} {t.disponible}</span>
             <span className="text-[#d94d33]">•</span>
             <span>{t.actualise}</span>
           </div>
-          
+
           <div className="mt-6">
             <input
               type="text"
@@ -160,38 +159,38 @@ const { language } = useLanguage();
         ) : filteredFilms.length > 0 ? (
           <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {filteredFilms.map((film) => (
-            <Link
-              key={film.id}
-              href={`/films/${film.id}`}
-              className="group overflow-hidden rounded-[2rem] border border-[#d99f8b] bg-white shadow-[0_20px_80px_rgba(133,76,58,0.08)] transition duration-300 hover:-translate-y-1 hover:border-[#d94d33]"
-            >
-              <div
-                className="relative h-64 overflow-hidden bg-cover bg-center"
-                style={{ backgroundImage: `linear-gradient(rgba(255,245,241,0.6), rgba(255,245,241,0.95)), url('${film.movie_banner}')` }}
+              <Link
+                key={film.id}
+                href={`/films/${film.id}`}
+                className="group overflow-hidden rounded-[2rem] border border-[#d99f8b] bg-white shadow-[0_20px_80px_rgba(133,76,58,0.08)] transition duration-300 hover:-translate-y-1 hover:border-[#d94d33]"
               >
-                <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-transparent" />
-                <div className="relative flex h-full flex-col justify-end p-6">
-                  <p className="inline-flex items-center rounded-full bg-[#fff3ea] px-3 py-1 text-xs uppercase tracking-[0.25em] text-[#a23524] shadow-lg shadow-[rgba(133,76,58,0.08)]">
-                    {film.release_date}
-                  </p>
+                <div
+                  className="relative h-64 overflow-hidden bg-cover bg-center"
+                  style={{ backgroundImage: `linear-gradient(rgba(255,245,241,0.6), rgba(255,245,241,0.95)), url('${film.movie_banner}')` }}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-transparent" />
+                  <div className="relative flex h-full flex-col justify-end p-6">
+                    <p className="inline-flex items-center rounded-full bg-[#fff3ea] px-3 py-1 text-xs uppercase tracking-[0.25em] text-[#a23524] shadow-lg shadow-[rgba(133,76,58,0.08)]">
+                      {film.release_date}
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              <div className="space-y-4 p-6">
-                <div className="space-y-2">
-                  <h2 className="text-xl font-semibold text-slate-950 transition group-hover:text-[#d94d33]">
-                    {film.title}
-                  </h2>
-                  <p className="text-sm text-[#7d5a4e]">{film.original_title_romanised}</p>
+                <div className="space-y-4 p-6">
+                  <div className="space-y-2">
+                    <h2 className="text-xl font-semibold text-slate-950 transition group-hover:text-[#d94d33]">
+                      {film.title}
+                    </h2>
+                    <p className="text-sm text-[#7d5a4e]">{film.original_title_romanised}</p>
+                  </div>
+                  <p className="text-sm leading-6 text-[#7d5a4e] line-clamp-4">{film.description}</p>
+                  <div className="flex flex-wrap gap-3 text-xs uppercase tracking-[0.25em] text-[#7d5a4e]">
+                    <span>{film.director}</span>
+                    <span>{film.running_time} min</span>
+                  </div>
                 </div>
-                <p className="text-sm leading-6 text-[#7d5a4e] line-clamp-4">{film.description}</p>
-                <div className="flex flex-wrap gap-3 text-xs uppercase tracking-[0.25em] text-[#7d5a4e]">
-                  <span>{film.director}</span>
-                  <span>{film.running_time} min</span>
-                </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
           </section>
         ) : (
           <div className="rounded-[2rem] border border-[#d99f8b] bg-[#fff7f1] p-12 text-center">

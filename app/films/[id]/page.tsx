@@ -6,6 +6,7 @@ import { getFilm } from "@/lib/ghibli";
 import type { Film } from "@/lib/ghibli";
 import { useLanguage } from "@/context/LanguageContext";
 import { trailers } from "@/lib/trailers";
+import { translations } from "@/lib/translations";
 
 type FilmProps = {
   params: Promise<{
@@ -19,6 +20,7 @@ export default function FilmDetailPage({ params }: FilmProps) {
   const [film, setFilm] = useState<Film | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const trailerId = trailers[id];
+  const t = translations[language];
 
   useEffect(() => {
     let mounted = true;
@@ -46,7 +48,7 @@ export default function FilmDetailPage({ params }: FilmProps) {
       <main className="min-h-screen bg-transparent text-slate-900">
         <div className="mx-auto flex min-h-screen max-w-4xl flex-col items-center justify-center gap-6 px-6 text-center">
           <div className="space-y-4 rounded-[2rem] border border-[#d99f8b] bg-[#fff7f1] p-10 paper-panel">
-            <p className="text-sm uppercase tracking-[0.35em] text-[#a23524]">Chargement du film...</p>
+            <p className="text-sm uppercase tracking-[0.35em] text-[#a23524]">{t.filmLoading}</p>
           </div>
         </div>
       </main>
@@ -58,16 +60,16 @@ export default function FilmDetailPage({ params }: FilmProps) {
       <main className="min-h-screen bg-transparent text-slate-900">
         <div className="mx-auto flex min-h-screen max-w-4xl flex-col items-center justify-center gap-6 px-6 text-center">
           <div className="space-y-4 rounded-[2rem] border border-[#d99f8b] bg-[#fff7f1] p-10 paper-panel">
-            <p className="text-sm uppercase tracking-[0.35em] text-[#a23524]">Film introuvable</p>
-            <h1 className="text-3xl font-semibold text-slate-950">Désolé, impossible de charger ce film.</h1>
+            <p className="text-sm uppercase tracking-[0.35em] text-[#a23524]">{t.filmNotFound}</p>
+            <h1 className="text-3xl font-semibold text-slate-950">{t.filmNotFoundMessage}</h1>
             <p className="max-w-2xl text-[#7d5a4e]">
-              Vérifiez votre connexion ou revenez à la page de liste pour sélectionner un autre film.
+              {t.VerifyConnexion}
             </p>
             <Link
               href="/films"
               className="inline-flex rounded-full bg-[#d94d33] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#b33e2a]"
             >
-              Retour à la liste
+              {t.GoBackToList}
             </Link>
           </div>
         </div>
@@ -79,7 +81,7 @@ export default function FilmDetailPage({ params }: FilmProps) {
     <main className="min-h-screen bg-transparent text-slate-900">
       <div className="mx-auto max-w-6xl px-6 py-10 sm:px-8">
         <Link href="/films" className="inline-flex items-center gap-2 text-sm text-[#a23524] transition hover:text-[#d94d33]">
-          ← Retour au catalogue
+          {t.BackToCatalog}
         </Link>
 
         <section className="mt-8 grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
@@ -95,13 +97,13 @@ export default function FilmDetailPage({ params }: FilmProps) {
 
             <div className="space-y-6 p-8">
               <div className="space-y-3">
-                <h2 className="text-xl font-semibold text-slate-950">Synopsis</h2>
+                <h2 className="text-xl font-semibold text-slate-950">{t.Synopsis}</h2>
                 <p className="leading-7 text-[#7d5a4e]">{film.description}</p>
               </div>
               {trailerId && (
                 <section className="mt-12">
-                  <h2 className="mb-4 text-2xl font-semibold text-white">
-                    🎬 Bande-annonce
+                  <h2 className="mb-4 text-2xl font-semibold text-slate-950">
+                    {t.trailer}
                   </h2>
 
                   <div className="overflow-hidden rounded-3xl border border-slate-800">
@@ -117,26 +119,26 @@ export default function FilmDetailPage({ params }: FilmProps) {
               
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="rounded-3xl bg-[#fff3ea] p-5">
-                  <p className="text-sm uppercase tracking-[0.25em] text-[#7d5a4e]">Réalisateur</p>
+                  <p className="text-sm uppercase tracking-[0.25em] text-[#7d5a4e]">{t.director}</p>
                   <p className="mt-2 text-lg font-medium text-slate-950">{film.director}</p>
                 </div>
                 <div className="rounded-3xl bg-[#fff3ea] p-5">
-                  <p className="text-sm uppercase tracking-[0.25em] text-[#7d5a4e]">Producteur</p>
+                  <p className="text-sm uppercase tracking-[0.25em] text-[#7d5a4e]">{t.producer}</p>
                   <p className="mt-2 text-lg font-medium text-slate-950">{film.producer}</p>
                 </div>
               </div>
 
               <div className="grid gap-4 sm:grid-cols-3">
                 <div className="rounded-3xl bg-[#fff3ea] p-5">
-                  <p className="text-sm uppercase tracking-[0.25em] text-[#7d5a4e]">Score</p>
+                  <p className="text-sm uppercase tracking-[0.25em] text-[#7d5a4e]">{t.rt_score}</p>
                   <p className="mt-2 text-lg font-semibold text-[#d94d33]">{film.rt_score}%</p>
                 </div>
                 <div className="rounded-3xl bg-[#fff3ea] p-5">
-                  <p className="text-sm uppercase tracking-[0.25em] text-[#7d5a4e]">Date</p>
+                  <p className="text-sm uppercase tracking-[0.25em] text-[#7d5a4e]">{t.release_date}</p>
                   <p className="mt-2 text-lg font-medium text-slate-950">{film.release_date}</p>
                 </div>
                 <div className="rounded-3xl bg-[#fff3ea] p-5">
-                  <p className="text-sm uppercase tracking-[0.25em] text-[#7d5a4e]">Durée</p>
+                  <p className="text-sm uppercase tracking-[0.25em] text-[#7d5a4e]">{t.running_time}</p>
                   <p className="mt-2 text-lg font-medium text-slate-950">{film.running_time} min</p>
                 </div>
               </div>
@@ -145,27 +147,27 @@ export default function FilmDetailPage({ params }: FilmProps) {
 
           <aside className="space-y-6 rounded-[2rem] border border-[#d99f8b] bg-[#fff7f1] p-8 paper-panel">
             <div className="space-y-3">
-              <h2 className="text-2xl font-semibold text-slate-950">Détails du film</h2>
+              <h2 className="text-2xl font-semibold text-slate-950">{t.filmDetails}</h2>
               <p className="text-sm leading-6 text-[#7d5a4e]">
-                Informations supplémentaires extraites directement de l'API officielle Studio Ghibli.
+                {t.filmDetailsMessage}
               </p>
             </div>
 
             <div className="space-y-4 text-sm text-[#7d5a4e]">
               <div className="rounded-3xl bg-[#fff3ea] p-5 accent-pill">
-                <p className="font-semibold text-slate-950">Titre original</p>
+                <p className="font-semibold text-slate-950">{t.original_title}</p>
                 <p className="mt-2 text-slate-700">{film.original_title}</p>
               </div>
               <div className="rounded-3xl bg-[#fff3ea] p-5">
-                <p className="font-semibold text-slate-950">URL API</p>
+                <p className="font-semibold text-slate-950">{t.api_url}</p>
                 <p className="mt-2 break-all text-[#d94d33]">{film.url}</p>
               </div>
               <div className="rounded-3xl bg-[#fff3ea] p-5">
-                <p className="font-semibold text-slate-950">Personnages</p>
+                <p className="font-semibold text-slate-950">{t.characters}</p>
                 <p className="mt-2 text-[#7d5a4e]">{film.people.length || "N/A"}</p>
               </div>
               <div className="rounded-3xl bg-[#fff3ea] p-5">
-                <p className="font-semibold text-slate-950">Lieux</p>
+                <p className="font-semibold text-slate-950">{t.locations}</p>
                 <p className="mt-2 text-[#7d5a4e]">{film.locations.length || "N/A"}</p>
               </div>
             </div>

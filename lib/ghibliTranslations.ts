@@ -15,7 +15,7 @@ export const filmTranslations: Record<string, FilmTranslation> = {
   "Grave of the Fireflies": {
     title: "Le Tombeau des lucioles",
     description:
-      "À la fin de la Seconde Guerre mondiale, un garçon et sa sœur, orphelins après le bombardement de Tokyo, luttent pour survivre dans la campagne japonaise, affrontant la faim, la maladie et l'indifférence.",
+      "À la fin de la Seconde Guerre mondiale, un garçon et sa sœur, orphelins après le bombardement de Tokyo luttent pour survivre dans la campagne japonaise, affrontant la faim, la maladie et l'indifférence.",
   },
   "My Neighbor Totoro": {
     title: "Mon Voisin Totoro",
@@ -30,27 +30,27 @@ export const filmTranslations: Record<string, FilmTranslation> = {
   "Only Yesterday": {
     title: "Souvenirs goutte à goutte",
     description:
-      "En 1982, Taeko, 27 ans et célibataire, retourne chez sa famille à la campagne et, au fil du voyage, se remémore son enfance et les rêves d'autrefois, tout en se confrontant à son présent.",
+      "Nous sommes en 1982 et Taeko a 27 ans, elle est célibataire et a vécu toute sa vie à Tokyo. Elle décide de rendre visite à sa famille à la campagne, et alors que le train voyage dans la nuit, des souvenirs de sa jeunesse remontent à la surface : les premiers frémissements immatures de la romance, le début de la puberté et les frustrations des mathématiques et des garçons. À la gare, elle rencontre le jeune agriculteur Toshio, et les rencontres avec lui commencent à la reconnecter à des désirs oubliés. Dans des alternances lyriques entre le présent et le passé, Taeko contemple l'arc de sa vie et se demande si elle a été fidèle aux rêves de son enfance.",
   },
   "Porco Rosso": {
     title: "Porco Rosso",
     description:
-      "Ancien as de l'aviation, devenu chasseur de primes dans l'Adriatique, Porco Rosso vit maudit avec une tête de cochon. Le film suit ses aventures entre piraterie aérienne et nostalgie d'un monde d'honneur.",
+      "Porco Rosso, connu au Japon sous le nom de Crimson Pig (Kurenai no Buta), est le sixième long métrage d'animation de Hayao Miyazaki, sorti en 1992. On y découvre un as de l'aviation italien de la Première Guerre mondiale, devenu chasseur de primes indépendant, traquant les « pirates de l'air » en mer Adriatique. Victime d'une malédiction, sa tête a pris celle d'un cochon. Autrefois appelé Marco Pagot, il est désormais connu dans le monde entier sous le nom de « Porco Rosso », qui signifie « Cochon Rouge » en italien.",
   },
   "Pom Poko": {
     title: "Pom Poko",
     description:
-      "Alors que l'urbanisation grignote leur habitat, des tanukis (raccoons) mènent une lutte désespérée pour arrêter les travaux et préserver leur foyer, usant de métamorphoses et de ruses.",
+      "À mesure que le développement des villes humaines empiète sur l'habitat des forêts et des prairies de la population de ratons laveurs, les ratons laveurs se retrouvent confrontés à une possibilité très réelle d'extinction. En réponse, les tanukis se lancent dans une lutte désespérée pour arrêter la construction et préserver leur maison.",
   },
   "Whisper of the Heart": {
     title: "Si tu tends l'oreille",
     description:
-      "Shizuku, amoureuse des livres et de l'écriture, découvre qu'un mystérieux lecteur a emprunté les mêmes ouvrages qu'elle. En rencontrant Seiji, elle est poussée à trouver sa voie entre écriture et rêves d'avenir.",
+      "Shizuku mène une vie simple, rythmée par sa passion pour les histoires et l'écriture. Un jour, elle remarque que tous les livres de la bibliothèque ont été empruntés par la même personne : Seiji Amasawa. Intriguée, elle rencontre un garçon de son âge qu'elle trouve exaspérant, mais découvre avec stupeur qu'il est son « Prince des Livres ». En apprenant à le connaître, elle comprend qu'il lisait tous ces livres uniquement pour se rapprocher d'elle. Seiji rêve de devenir luthier en Italie, et ce sont ses aspirations qui font prendre conscience à Shizuku de l'absence de repères dans sa vie. Sachant que son talent réside dans l'écriture, elle le met à l'épreuve en écrivant une histoire sur Baron, une statuette de chat ayant appartenu au grand-père de Seiji.",
   },
   "Princess Mononoke": {
     title: "Princesse Mononoké",
     description:
-      "Ashitaka, prince d'un clan en déclin, est maudit par un dieu sanglier et part à l'ouest pour trouver un remède. Il se retrouve au cœur d'un conflit entre San, protectrice de la forêt, et Lady Eboshi, qui industrialise la région ; Ashitaka cherche un équilibre.",
+      "Ashitaka, prince de la tribu aïnoue en voie de disparition, est maudit par un dieu sanglier démoniaque et doit entreprendre un voyage vers l'ouest pour trouver un remède. Il se retrouve au cœur d'un conflit entre San, protectrice de la forêt, et Lady Eboshi, qui industrialise la région ; Ashitaka doit trouver un moyen de rétablir l'équilibre dans ce conflit.",
   },
   "My Neighbors the Yamadas": {
     title: "Mes voisins les Yamada",
@@ -60,27 +60,27 @@ export const filmTranslations: Record<string, FilmTranslation> = {
   "Spirited Away": {
     title: "Le Voyage de Chihiro",
     description:
-      "Chihiro, une fillette de dix ans, se perd avec ses parents dans un monde étrange gouverné par des créatures et des esprits. Ses parents sont transformés en cochons et elle doit naviguer dans ce monde pour les sauver et retrouver sa vie.",
+      "Le Voyage de Chihiro est un film d'animation japonais oscarisé qui raconte l'histoire d'une fillette de dix ans qui s'éloigne de ses parents et se retrouve dans un monde peuplé d'animaux étranges et monstrueux. Ses parents ont été transformés en cochons, ainsi que d'autres personnes, dans un bain public rempli de ces créatures. Reverra-t-elle un jour le monde tel qu'il était ?",
   },
   "The Cat Returns": {
     title: "Le Royaume des chats",
     description:
-      "Haru sauve un chat étrange et se retrouve entraînée dans le royaume des chats, où sa bonne action lui attire des cadeaux… et une demande de mariage surprenante, la conduisant dans un voyage inattendu.",
+      "Haru, une écolière lassée de sa routine, sauve la vie d'un chat hors du commun et son monde bascule soudainement. Le Roi des Chats la récompense de sa bonne action en la comblant de présents, dont une demande en mariage pour le moins surprenante à son fils ! Haru se lance alors dans un voyage inattendu au Royaume des Chats, où s'ouvre à elle un monde complètement différent.",
   },
   "Howl's Moving Castle": {
     title: "Le Château ambulant",
     description:
-      "Sophie est transformée en vieille femme par une sorcière et trouve refuge auprès du magicien Howl et de son château ambulant : une quête pour briser la malédiction et affronter des forces mystérieuses.",
+      "Sophie est transformée en vieille femme par une sorcière et trouve refuge auprès du magicien Howl et de son château ambulant : c'est le début d'une quête pour briser la malédiction et affronter des forces mystérieuses.",
   },
   "Tales from Earthsea": {
     title: "Les Contes de Terremer",
     description:
-      "Le royaume est troublé par des phénomènes étranges et l'apparition de dragons. Ged, un magicien errant, enquête et rencontre le prince Arren, confronté à ses propres peurs et à des forces obscures.",
+      "Un phénomène étrange s'est abattu sur le royaume. Le chaos s'installe. Les gens se comportent bizarrement… Plus étrange encore, ils commencent à apercevoir des dragons, créatures qui ne devraient pas se trouver dans le monde des humains. Face à ces événements étranges, Ged, un magicien errant, enquête sur leur origine. Au cours de son périple, il rencontre le prince Arren, un jeune adolescent confronté à ses propres peurs et à des forces obscures.",
   },
   "Ponyo": {
     title: "Ponyo sur la falaise",
     description:
-      "Sosuke, un garçon de cinq ans, découvre une poisson rouge nommée Ponyo qui se révèle être la fille d'un sorcier et d'une déesse de la mer. Ponyo souhaite devenir humaine, provoquant des déséquilibres que les deux enfants devront réparer.",
+      "Sosuke, un garçon de cinq ans, découvre une poisson rouge nommée Ponyo qui se révèle être la fille d'un sorcier et d'une déesse de la mer.Ponyo utilise la magie de son père pour se transformer en jeune fille et tombe rapidement amoureuse de Sosuke. Cependant, l'usage d'une telle sorcellerie provoque un dangereux déséquilibre dans le monde. Alors que la lune se rapproche inexorablement de la Terre et que le père de Ponyo déchaîne les vagues de l'océan pour retrouver sa fille, les deux enfants se lancent dans l'aventure de leur vie pour sauver le monde et réaliser le rêve de Ponyo : devenir humaine.",
   },
   "Arrietty": {
     title: "Arrietty, le petit monde des chapardeurs",
