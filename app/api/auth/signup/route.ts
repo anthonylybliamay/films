@@ -1,12 +1,11 @@
+'use server';
+
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
-import { translations } from "@/lib/translations";
-import { useLanguage } from "@/context/LanguageContext";
 
 export async function POST(request: NextRequest) {
-  const { language } = useLanguage();
-  const t = translations[language];
+
   try {
     const { nom, email, password } = await request.json();
    
@@ -14,21 +13,21 @@ export async function POST(request: NextRequest) {
     // Validation
     if (!nom || !email || !password) {
       return NextResponse.json(
-        { error: t.errorchampRequired },
+        { error: "Tous les champs sont requis" },
         { status: 400 }
       );
     }
 
     if (password.length < 8) {
       return NextResponse.json(
-        { error: t.errorMDP },
+        { error: "Le mot de passe doit contenir au moins 8 caractères" },
         { status: 400 }
       );
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return NextResponse.json(
-        { error: t.errorEmailInvalide },
+        { error: "Email invalide" },
         { status: 400 }
       );
     }
@@ -40,7 +39,7 @@ export async function POST(request: NextRequest) {
 
     if (existingUser) {
       return NextResponse.json(
-        { error: t.errorEmailUtilise },
+        { error: "Cet email est déjà utilisé" },
         { status: 400 }
       );
     }
@@ -68,7 +67,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
       {
-        message: t.inscriptionReussie,
+        message: "Inscription réussie",
         user: userWithoutPassword,
       },
       { status: 201 }
@@ -76,7 +75,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Erreur d'inscription:", error);
     return NextResponse.json(
-      { error: t.errordInscription },
+      { error: "Erreur d'inscription" },
       { status: 500 }
     );
   }

@@ -1,20 +1,18 @@
+'use server';
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcryptjs";
-import { translations } from "@/lib/translations";
-import { useLanguage } from "@/context/LanguageContext";
 
 
 export async function POST(request: NextRequest) {
-  const { language } = useLanguage();
-  const t = translations[language];
+
   try {
     const { email, password } = await request.json();
 
     // Validation
     if (!email || !password) {
       return NextResponse.json(
-        { error: t.emailmdpRequired },
+        { error: "Email et mot de passe sont requis" },
         { status: 400 }
       );
     }
@@ -26,7 +24,7 @@ export async function POST(request: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { error: t.emailOuMotDePasseIncorrect },
+        { error: "Email ou mot de passe incorrect" },
         { status: 401 }
       );
     }
@@ -36,7 +34,7 @@ export async function POST(request: NextRequest) {
 
     if (!passwordMatch) {
       return NextResponse.json(
-        { error: t.emailOuMotDePasseIncorrect },
+        { error: "Email ou mot de passe incorrect" },
         { status: 401 }
       );
     }
@@ -54,7 +52,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Erreur de connexion:", error);
     return NextResponse.json(
-      { error: t.connexionErreur },
+      { error: "Erreur de connexion" },
       { status: 500 }
     );
   } finally {
