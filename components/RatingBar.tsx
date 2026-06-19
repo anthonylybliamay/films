@@ -52,7 +52,7 @@ export default function RatingBar({ filmId, label }: RatingBarProps) {
           </button>
         ))}
         {rating && (
-         <span className="ml-4 self-center text-xl font-semibold text-[#7d5a4e]">
+         <span className="ml-4 mt-1.5 self-center text-xl font-semibold text-[#7d5a4e]">
           {rating}/5
         </span>
         )}
