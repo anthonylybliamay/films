@@ -7,6 +7,7 @@ import type { Film } from "@/lib/ghibli";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import FavoriteButton from "@/components/FavoriteButton";
 
 const CACHE_KEY_BASE = "ghibliFilmsCache";
 const CACHE_TTL = 1000 * 60 * 60; // 1 heure
@@ -159,22 +160,31 @@ export default function FilmsPage() {
         ) : filteredFilms.length > 0 ? (
           <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {filteredFilms.map((film) => (
-              <Link
-                key={film.id}
-                href={`/films/${film.id}`}
-                className="group overflow-hidden rounded-[2rem] border border-[#d99f8b] bg-white shadow-[0_20px_80px_rgba(133,76,58,0.08)] transition duration-300 hover:-translate-y-1 hover:border-[#d94d33]"
-              >
-                <div
-                  className="relative h-64 overflow-hidden bg-cover bg-center"
-                  style={{ backgroundImage: `linear-gradient(rgba(255,245,241,0.6), rgba(255,245,241,0.95)), url('${film.movie_banner}')` }}
+              <div key={film.id} className="group overflow-hidden rounded-[2rem] border border-[#d99f8b] bg-white shadow-[0_20px_80px_rgba(133,76,58,0.08)] transition duration-300 hover:-translate-y-1 hover:border-[#d94d33]">
+                <Link
+                  href={`/films/${film.id}`}
+                  className="block"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-transparent" />
-                  <div className="relative flex h-full flex-col justify-end p-6">
-                    <p className="inline-flex items-center rounded-full bg-[#fff3ea] px-3 py-1 text-xs uppercase tracking-[0.25em] text-[#a23524] shadow-lg shadow-[rgba(133,76,58,0.08)]">
-                      {film.release_date}
-                    </p>
+                  <div
+                    className="relative h-64 overflow-hidden bg-cover bg-center"
+                    style={{ backgroundImage: `linear-gradient(rgba(255,245,241,0.6), rgba(255,245,241,0.95)), url('${film.movie_banner}')` }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-transparent" />
+                    <div className="absolute top-4 right-4 z-10">
+                      <FavoriteButton
+                        filmId={film.id}
+                        filmTitle={film.title}
+                        filmImage={film.movie_banner}
+                        size="lg"
+                      />
+                    </div>
+                    <div className="relative flex h-full flex-col justify-end p-6">
+                      <p className="inline-flex items-center rounded-full bg-[#fff3ea] px-3 py-1 text-xs uppercase tracking-[0.25em] text-[#a23524] shadow-lg shadow-[rgba(133,76,58,0.08)]">
+                        {film.release_date}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                </Link>
 
                 <div className="space-y-4 p-6">
                   <div className="space-y-2">
@@ -189,7 +199,7 @@ export default function FilmsPage() {
                     <span>{film.running_time} min</span>
                   </div>
                 </div>
-              </Link>
+              </div>
             ))}
           </section>
         ) : (

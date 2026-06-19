@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { AuthProvider } from "@/context/AuthContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import UserMenu from "@/components/UserMenu";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,8 +33,13 @@ export default function RootLayout({
     >
       <body className="min-h-full">
         <LanguageProvider>
-          <LanguageSwitcher />
-          {children}
+          <AuthProvider>
+            <div className="flex justify-between items-center p-4 gap-4">
+              <LanguageSwitcher />
+              <UserMenu />
+            </div>
+            {children}
+          </AuthProvider>
         </LanguageProvider>
       </body>
     </html>

@@ -8,6 +8,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { trailers } from "@/lib/trailers";
 import { translations } from "@/lib/translations";
 import RatingBar from "@/components/RatingBar";
+import FavoriteButton from "@/components/FavoriteButton";
 
 type FilmProps = {
   params: Promise<{
@@ -200,6 +201,15 @@ export default function FilmDetailPage({ params }: FilmProps) {
                 </section>
               )}
               <RatingBar filmId={id} label={t.yourRating || "Your Rating"} />
+              <div className="rounded-3xl bg-[#fff3ea] p-5 flex items-center justify-between">
+                <p className="font-semibold text-slate-950">Ajouter aux favoris</p>
+                <FavoriteButton
+                  filmId={id}
+                  filmTitle={film.title}
+                  filmImage={film.movie_banner}
+                  size="lg"
+                />
+              </div>
             </div>
           </aside>
         </section>
