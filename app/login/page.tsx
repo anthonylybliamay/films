@@ -117,7 +117,7 @@ export default function LoginPage() {
               disabled={isLoading}
               className="w-full rounded-full bg-[#d94d33] px-8 py-4 text-sm font-semibold text-white transition hover:bg-[#b33e2a] disabled:opacity-70 disabled:cursor-not-allowed mt-6"
             >
-              {isLoading ? `${t.connexion}...` : t.seConnecter}
+              {isLoading ? `${t.connexion}...` : t.connexion}
             </button>
           </form>
 

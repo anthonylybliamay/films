@@ -27,7 +27,7 @@ export default function FavoriteButton({
   const sizeClasses = {
     sm: "w-6 h-6 text-sm",
     md: "w-8 h-8 text-base",
-    lg: "w-10 h-10 text-lg",
+    lg: "w-10 h-10 text-5xl",
   };
 
   // Vérifier si le film est en favori au chargement

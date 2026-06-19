@@ -202,7 +202,7 @@ export default function FilmDetailPage({ params }: FilmProps) {
               )}
               <RatingBar filmId={id} label={t.yourRating || "Your Rating"} />
               <div className="rounded-3xl bg-[#fff3ea] p-5 flex items-center justify-between">
-                <p className="font-semibold text-slate-950">Ajouter aux favoris</p>
+                <p className="font-semibold text-slate-950">{t.addFavorite}</p>
                 <FavoriteButton
                   filmId={id}
                   filmTitle={film.title}

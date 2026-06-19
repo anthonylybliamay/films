@@ -27,10 +27,10 @@ export default function Home() {
               <p className="text-lg text-[#7d5a4e]">{t.design}</p>
             </div>
             <Link
-              href="/films"
+              href="/login"
               className="inline-flex items-center justify-center rounded-full bg-[#d94d33] px-8 py-4 text-sm font-semibold text-white transition hover:bg-[#b33e2a]"
             >
-              {t.explorerFilms}
+              {t.connexion}
             </Link>
           </div>
         </div>
