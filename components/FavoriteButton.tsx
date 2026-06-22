@@ -62,7 +62,10 @@ export default function FavoriteButton({
     checkFavorite();
   }, [filmId, user]);
 
-  const handleToggleFavorite = async () => {
+  const handleToggleFavorite = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+
     if (!user) {
       // Rediriger vers login si non authentifié
       router.push("/login");
@@ -98,6 +101,7 @@ export default function FavoriteButton({
   if (isChecking) {
     return (
       <button
+        type="button"
         disabled
         className={`${sizeClasses[size]} rounded-full transition-opacity opacity-50`}
       >
@@ -108,6 +112,7 @@ export default function FavoriteButton({
 
   return (
     <button
+      type="button"
       onClick={handleToggleFavorite}
       disabled={isLoading}
       className={`${sizeClasses[size]} rounded-full transition-all duration-200 font-semibold ${

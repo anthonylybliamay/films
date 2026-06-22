@@ -92,7 +92,7 @@ export default function LoginPage() {
                   {t.motDePasse}
                 </label>
                 <a
-                  href="#"
+                  href="/forgot-password"
                   className="text-sm text-[#d94d33] hover:text-[#b33e2a] transition"
                 >
                   {t.motDePasseOublie}

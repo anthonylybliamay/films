@@ -22,7 +22,7 @@ export default function UserMenu() {
   };
 
   return (
-  <div className="flex items-center gap-4">
+  <div className="flex items-center gap-4 rounded-[1.5rem] border border-[#d99f8b] bg-[#fff7f1] px-4 py-3 shadow-[0_10px_30px_rgba(133,76,58,0.08)]">
     {isAuthenticated ? (
       <>
         <div className="flex flex-col items-end pr-2">
@@ -36,7 +36,7 @@ export default function UserMenu() {
 
         <button
           onClick={handleLogout}
-          className="px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 bg-red-100 text-red-700 hover:bg-red-200"
+          className="inline-flex items-center justify-center rounded-full bg-[#d94d33] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#b33e2a]"
         >
           {t.deconnexion}
         </button>
@@ -44,7 +44,7 @@ export default function UserMenu() {
     ) : (
       <Link
         href="/login"
-        className="px-3 py-2 rounded-md text-sm font-medium transition-all duration-200 bg-red-100 text-red-700 hover:bg-red-200"
+        className="inline-flex items-center justify-center rounded-full bg-[#d94d33] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#b33e2a]"
       >
         {t.connexion}
       </Link>
