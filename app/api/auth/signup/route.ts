@@ -8,38 +8,38 @@ export async function POST(request: NextRequest) {
 
   try {
     const { nom, email, password } = await request.json();
-   
+    const normalizedEmail = typeof email === "string" ? email.trim().toLowerCase() : "";
 
     // Validation
-    if (!nom || !email || !password) {
+    if (!nom || !normalizedEmail || !password) {
       return NextResponse.json(
-        { error: "Tous les champs sont requis" },
+        { error: "All fields are required" },
         { status: 400 }
       );
     }
 
     if (password.length < 8) {
       return NextResponse.json(
-        { error: "Le mot de passe doit contenir au moins 8 caractères" },
+        { error: "The password must contain at least 8 characters" },
         { status: 400 }
       );
     }
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
       return NextResponse.json(
-        { error: "Email invalide" },
+        { error: "Invalid email format" },
         { status: 400 }
       );
     }
 
-    // Vérifier si l'utilisateur existe déjà
-    const existingUser = await prisma.user.findUnique({
-      where: { email },
+    // Vérifier si l'utilisateur existe déjà (insensible à la casse)
+    const existingUser = await prisma.user.findFirst({
+      where: { email: { equals: normalizedEmail, mode: "insensitive" } },
     });
 
     if (existingUser) {
       return NextResponse.json(
-        { error: "Cet email est déjà utilisé" },
+        { error: "This email is already in use" },
         { status: 400 }
       );
     }
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
       data: {
         firstName,
         lastName,
-        email,
+        email: normalizedEmail,
         password: hashedPassword,
       },
     });
@@ -67,15 +67,15 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
       {
-        message: "Inscription réussie",
+        message: "Signup successful",
         user: userWithoutPassword,
       },
       { status: 201 }
     );
   } catch (error) {
-    console.error("Erreur d'inscription:", error);
+    console.error("Error signing up:", error);
     return NextResponse.json(
-      { error: "Erreur d'inscription" },
+      { error: "Error occurred while signing up" },
       { status: 500 }
     );
   }

@@ -45,12 +45,18 @@ export default function ForgotPasswordPage() {
         body: JSON.stringify({ email }),
       });
 
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data.error || t.connexionErreur);
+      let data: { message?: string; error?: string } | null = null;
+      try {
+        data = await response.json();
+      } catch {
+        data = null;
       }
 
-      setSuccess(data.message || t.resetEmailSent);
+      if (!response.ok) {
+        throw new Error(data?.error || data?.message || t.connexionErreur);
+      }
+
+      setSuccess(data?.message || t.resetEmailSent);
     } catch (err) {
       setError(err instanceof Error ? err.message : t.connexionErreur);
     } finally {

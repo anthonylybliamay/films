@@ -55,14 +55,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({ email, password }),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Erreur de connexion");
+      let errorData: { error?: string; message?: string; user?: User } | null = null;
+      try {
+        errorData = await response.json();
+      } catch {
+        errorData = null;
       }
 
-      const data = await response.json();
-      setUser(data.user);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      if (!response.ok) {
+        throw new Error(errorData?.error || errorData?.message || "Erreur de connexion");
+      }
+
+      if (!errorData?.user) {
+        throw new Error("Réponse de connexion invalide");
+      }
+
+      setUser(errorData.user);
+      localStorage.setItem("user", JSON.stringify(errorData.user));
       localStorage.setItem("authToken", Math.random().toString(36).substr(2));
     } finally {
       setIsLoading(false);
@@ -80,14 +89,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         body: JSON.stringify({ nom, email, password }),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Erreur d'inscription");
+      let errorData: { error?: string; message?: string; user?: User } | null = null;
+      try {
+        errorData = await response.json();
+      } catch {
+        errorData = null;
       }
 
-      const data = await response.json();
-      setUser(data.user);
-      localStorage.setItem("user", JSON.stringify(data.user));
+      if (!response.ok) {
+        throw new Error(errorData?.error || errorData?.message || "Erreur d'inscription");
+      }
+
+      if (!errorData?.user) {
+        throw new Error("Réponse d'inscription invalide");
+      }
+
+      setUser(errorData.user);
+      localStorage.setItem("user", JSON.stringify(errorData.user));
       localStorage.setItem("authToken", Math.random().toString(36).substr(2));
     } finally {
       setIsLoading(false);

@@ -8,33 +8,44 @@ export async function POST(request: NextRequest) {
 
   try {
     const { email, password } = await request.json();
+    const normalizedEmail = typeof email === "string" ? email.trim().toLowerCase() : "";
 
     // Validation
-    if (!email || !password) {
+    if (!normalizedEmail || !password) {
       return NextResponse.json(
-        { error: "Email et mot de passe sont requis" },
+        { error: "Email and password are required" },
         { status: 400 }
       );
     }
 
-    // Chercher l'utilisateur
-    const user = await prisma.user.findUnique({
-      where: { email },
+    // Chercher l'utilisateur (insensible à la casse et compatible avec les anciens comptes)
+    const user = await prisma.user.findFirst({
+      where: { email: { equals: normalizedEmail, mode: "insensitive" } },
     });
 
     if (!user) {
       return NextResponse.json(
-        { error: "Email ou mot de passe incorrect" },
+        { error: "Email or password is incorrect" },
         { status: 401 }
       );
     }
 
-    // Vérifier le mot de passe
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    // Vérifier le mot de passe, y compris pour les anciens comptes stockés en clair
+    const passwordMatch = await (async () => {
+      if (user.password.startsWith("$2")) {
+        try {
+          return await bcrypt.compare(password, user.password);
+        } catch {
+          return false;
+        }
+      }
+
+      return user.password === password;
+    })();
 
     if (!passwordMatch) {
       return NextResponse.json(
-        { error: "Email ou mot de passe incorrect" },
+        { error: "Email or password is incorrect" },
         { status: 401 }
       );
     }
@@ -44,18 +55,16 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(
       {
-        message: "Connexion réussie",
+        message: "Login successful",
         user: userWithoutPassword,
       },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Erreur de connexion:", error);
+    console.error("Error during login:", error);
     return NextResponse.json(
-      { error: "Erreur de connexion" },
+      { error: "Error during login" },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
