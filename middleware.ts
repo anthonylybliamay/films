@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 // Routes publiques (pas de redirection requise)
-const publicRoutes = ["/login", "/signin", "/forgot-password", "/"];
+const publicRoutes = ["/login", "/signin", "/forgot-password", "/", "/reset-password", "/reset-password/confirm"];
 
 // Routes protégées (redirection vers login si non authentifié)
 const protectedRoutes = ["/films", "/films/[id]"];

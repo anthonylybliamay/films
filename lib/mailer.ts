@@ -1,1 +1,0 @@
-RESEND_API_KEY="re_JayjKKfr_3AefjAydigWtWm6PZ69DaxKY"

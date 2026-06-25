@@ -7,7 +7,8 @@ export async function sendPasswordResetEmail(
   to: string,
   resetToken: string,
   baseUrl: string,
-  language: string = "fr"
+  language: string = "fr",
+  replyTo: string = "anthony.lybliamay@gelti.fr"
 ): Promise<boolean> {
   if (!process.env.RESEND_API_KEY) {
     console.error("RESEND_API_KEY is not configured");
@@ -23,7 +24,7 @@ export async function sendPasswordResetEmail(
     <p><a href="${resetUrl}">${t.resetPasswordEmailButton}</a></p>
     <p>${t.resetPasswordEmailIgnore}</p>
   `;
-  const fromEmail = process.env.RESEND_FROM_EMAIL?.trim() || "no-reply@ton-domaine.com";
+  const fromEmail = "onboarding@resend.dev";
 
   try {
     const response = await resend.emails.send({
@@ -31,6 +32,7 @@ export async function sendPasswordResetEmail(
       to,
       subject,
       html,
+      replyTo,
     });
 
     if (response.error) {
