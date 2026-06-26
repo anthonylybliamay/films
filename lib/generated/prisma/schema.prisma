@@ -25,7 +25,8 @@ model User {
   resetToken       String?   @unique
   resetTokenExpiry DateTime?
 
-  favorites Favorite[]
+  favorites     Favorite[]
+  personalNotes PersonalNote[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -42,6 +43,21 @@ model Favorite {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
+
+  @@unique([userId, filmId])
+}
+
+model PersonalNote {
+  id String @id @default(cuid())
+
+  filmId String
+  note   String?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([userId, filmId])
 }

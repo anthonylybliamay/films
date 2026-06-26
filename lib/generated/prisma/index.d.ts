@@ -23,6 +23,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  * 
  */
 export type Favorite = $Result.DefaultSelection<Prisma.$FavoritePayload>
+/**
+ * Model PersonalNote
+ * 
+ */
+export type PersonalNote = $Result.DefaultSelection<Prisma.$PersonalNotePayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -161,6 +166,16 @@ export class PrismaClient<
     * ```
     */
   get favorite(): Prisma.FavoriteDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.personalNote`: Exposes CRUD operations for the **PersonalNote** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PersonalNotes
+    * const personalNotes = await prisma.personalNote.findMany()
+    * ```
+    */
+  get personalNote(): Prisma.PersonalNoteDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -603,7 +618,8 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
-    Favorite: 'Favorite'
+    Favorite: 'Favorite',
+    PersonalNote: 'PersonalNote'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -622,7 +638,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "favorite"
+      modelProps: "user" | "favorite" | "personalNote"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -774,6 +790,80 @@ export namespace Prisma {
           }
         }
       }
+      PersonalNote: {
+        payload: Prisma.$PersonalNotePayload<ExtArgs>
+        fields: Prisma.PersonalNoteFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PersonalNoteFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalNotePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PersonalNoteFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalNotePayload>
+          }
+          findFirst: {
+            args: Prisma.PersonalNoteFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalNotePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PersonalNoteFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalNotePayload>
+          }
+          findMany: {
+            args: Prisma.PersonalNoteFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalNotePayload>[]
+          }
+          create: {
+            args: Prisma.PersonalNoteCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalNotePayload>
+          }
+          createMany: {
+            args: Prisma.PersonalNoteCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PersonalNoteCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalNotePayload>[]
+          }
+          delete: {
+            args: Prisma.PersonalNoteDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalNotePayload>
+          }
+          update: {
+            args: Prisma.PersonalNoteUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalNotePayload>
+          }
+          deleteMany: {
+            args: Prisma.PersonalNoteDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PersonalNoteUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PersonalNoteUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalNotePayload>[]
+          }
+          upsert: {
+            args: Prisma.PersonalNoteUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalNotePayload>
+          }
+          aggregate: {
+            args: Prisma.PersonalNoteAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePersonalNote>
+          }
+          groupBy: {
+            args: Prisma.PersonalNoteGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PersonalNoteGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PersonalNoteCountArgs<ExtArgs>
+            result: $Utils.Optional<PersonalNoteCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -872,6 +962,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     favorite?: FavoriteOmit
+    personalNote?: PersonalNoteOmit
   }
 
   /* Types for Logging */
@@ -953,10 +1044,12 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     favorites: number
+    personalNotes: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     favorites?: boolean | UserCountOutputTypeCountFavoritesArgs
+    personalNotes?: boolean | UserCountOutputTypeCountPersonalNotesArgs
   }
 
   // Custom InputTypes
@@ -975,6 +1068,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountFavoritesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FavoriteWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountPersonalNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PersonalNoteWhereInput
   }
 
 
@@ -1179,6 +1279,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     favorites?: boolean | User$favoritesArgs<ExtArgs>
+    personalNotes?: boolean | User$personalNotesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1221,6 +1322,7 @@ export namespace Prisma {
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "firstName" | "lastName" | "email" | "password" | "resetToken" | "resetTokenExpiry" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     favorites?: boolean | User$favoritesArgs<ExtArgs>
+    personalNotes?: boolean | User$personalNotesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1230,6 +1332,7 @@ export namespace Prisma {
     name: "User"
     objects: {
       favorites: Prisma.$FavoritePayload<ExtArgs>[]
+      personalNotes: Prisma.$PersonalNotePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1636,6 +1739,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     favorites<T extends User$favoritesArgs<ExtArgs> = {}>(args?: Subset<T, User$favoritesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FavoritePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    personalNotes<T extends User$personalNotesArgs<ExtArgs> = {}>(args?: Subset<T, User$personalNotesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2083,6 +2187,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: FavoriteScalarFieldEnum | FavoriteScalarFieldEnum[]
+  }
+
+  /**
+   * User.personalNotes
+   */
+  export type User$personalNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalNote
+     */
+    select?: PersonalNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalNote
+     */
+    omit?: PersonalNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalNoteInclude<ExtArgs> | null
+    where?: PersonalNoteWhereInput
+    orderBy?: PersonalNoteOrderByWithRelationInput | PersonalNoteOrderByWithRelationInput[]
+    cursor?: PersonalNoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PersonalNoteScalarFieldEnum | PersonalNoteScalarFieldEnum[]
   }
 
   /**
@@ -3176,6 +3304,1077 @@ export namespace Prisma {
 
 
   /**
+   * Model PersonalNote
+   */
+
+  export type AggregatePersonalNote = {
+    _count: PersonalNoteCountAggregateOutputType | null
+    _min: PersonalNoteMinAggregateOutputType | null
+    _max: PersonalNoteMaxAggregateOutputType | null
+  }
+
+  export type PersonalNoteMinAggregateOutputType = {
+    id: string | null
+    filmId: string | null
+    note: string | null
+    userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PersonalNoteMaxAggregateOutputType = {
+    id: string | null
+    filmId: string | null
+    note: string | null
+    userId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PersonalNoteCountAggregateOutputType = {
+    id: number
+    filmId: number
+    note: number
+    userId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PersonalNoteMinAggregateInputType = {
+    id?: true
+    filmId?: true
+    note?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PersonalNoteMaxAggregateInputType = {
+    id?: true
+    filmId?: true
+    note?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PersonalNoteCountAggregateInputType = {
+    id?: true
+    filmId?: true
+    note?: true
+    userId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PersonalNoteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PersonalNote to aggregate.
+     */
+    where?: PersonalNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PersonalNotes to fetch.
+     */
+    orderBy?: PersonalNoteOrderByWithRelationInput | PersonalNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PersonalNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PersonalNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PersonalNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PersonalNotes
+    **/
+    _count?: true | PersonalNoteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PersonalNoteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PersonalNoteMaxAggregateInputType
+  }
+
+  export type GetPersonalNoteAggregateType<T extends PersonalNoteAggregateArgs> = {
+        [P in keyof T & keyof AggregatePersonalNote]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePersonalNote[P]>
+      : GetScalarType<T[P], AggregatePersonalNote[P]>
+  }
+
+
+
+
+  export type PersonalNoteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PersonalNoteWhereInput
+    orderBy?: PersonalNoteOrderByWithAggregationInput | PersonalNoteOrderByWithAggregationInput[]
+    by: PersonalNoteScalarFieldEnum[] | PersonalNoteScalarFieldEnum
+    having?: PersonalNoteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PersonalNoteCountAggregateInputType | true
+    _min?: PersonalNoteMinAggregateInputType
+    _max?: PersonalNoteMaxAggregateInputType
+  }
+
+  export type PersonalNoteGroupByOutputType = {
+    id: string
+    filmId: string
+    note: string | null
+    userId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: PersonalNoteCountAggregateOutputType | null
+    _min: PersonalNoteMinAggregateOutputType | null
+    _max: PersonalNoteMaxAggregateOutputType | null
+  }
+
+  type GetPersonalNoteGroupByPayload<T extends PersonalNoteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PersonalNoteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PersonalNoteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PersonalNoteGroupByOutputType[P]>
+            : GetScalarType<T[P], PersonalNoteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PersonalNoteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    filmId?: boolean
+    note?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["personalNote"]>
+
+  export type PersonalNoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    filmId?: boolean
+    note?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["personalNote"]>
+
+  export type PersonalNoteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    filmId?: boolean
+    note?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["personalNote"]>
+
+  export type PersonalNoteSelectScalar = {
+    id?: boolean
+    filmId?: boolean
+    note?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PersonalNoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "filmId" | "note" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["personalNote"]>
+  export type PersonalNoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PersonalNoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PersonalNoteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PersonalNotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PersonalNote"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      filmId: string
+      note: string | null
+      userId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["personalNote"]>
+    composites: {}
+  }
+
+  type PersonalNoteGetPayload<S extends boolean | null | undefined | PersonalNoteDefaultArgs> = $Result.GetResult<Prisma.$PersonalNotePayload, S>
+
+  type PersonalNoteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PersonalNoteFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PersonalNoteCountAggregateInputType | true
+    }
+
+  export interface PersonalNoteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PersonalNote'], meta: { name: 'PersonalNote' } }
+    /**
+     * Find zero or one PersonalNote that matches the filter.
+     * @param {PersonalNoteFindUniqueArgs} args - Arguments to find a PersonalNote
+     * @example
+     * // Get one PersonalNote
+     * const personalNote = await prisma.personalNote.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PersonalNoteFindUniqueArgs>(args: SelectSubset<T, PersonalNoteFindUniqueArgs<ExtArgs>>): Prisma__PersonalNoteClient<$Result.GetResult<Prisma.$PersonalNotePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PersonalNote that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PersonalNoteFindUniqueOrThrowArgs} args - Arguments to find a PersonalNote
+     * @example
+     * // Get one PersonalNote
+     * const personalNote = await prisma.personalNote.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PersonalNoteFindUniqueOrThrowArgs>(args: SelectSubset<T, PersonalNoteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PersonalNoteClient<$Result.GetResult<Prisma.$PersonalNotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PersonalNote that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalNoteFindFirstArgs} args - Arguments to find a PersonalNote
+     * @example
+     * // Get one PersonalNote
+     * const personalNote = await prisma.personalNote.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PersonalNoteFindFirstArgs>(args?: SelectSubset<T, PersonalNoteFindFirstArgs<ExtArgs>>): Prisma__PersonalNoteClient<$Result.GetResult<Prisma.$PersonalNotePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PersonalNote that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalNoteFindFirstOrThrowArgs} args - Arguments to find a PersonalNote
+     * @example
+     * // Get one PersonalNote
+     * const personalNote = await prisma.personalNote.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PersonalNoteFindFirstOrThrowArgs>(args?: SelectSubset<T, PersonalNoteFindFirstOrThrowArgs<ExtArgs>>): Prisma__PersonalNoteClient<$Result.GetResult<Prisma.$PersonalNotePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PersonalNotes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalNoteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PersonalNotes
+     * const personalNotes = await prisma.personalNote.findMany()
+     * 
+     * // Get first 10 PersonalNotes
+     * const personalNotes = await prisma.personalNote.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const personalNoteWithIdOnly = await prisma.personalNote.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PersonalNoteFindManyArgs>(args?: SelectSubset<T, PersonalNoteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PersonalNote.
+     * @param {PersonalNoteCreateArgs} args - Arguments to create a PersonalNote.
+     * @example
+     * // Create one PersonalNote
+     * const PersonalNote = await prisma.personalNote.create({
+     *   data: {
+     *     // ... data to create a PersonalNote
+     *   }
+     * })
+     * 
+     */
+    create<T extends PersonalNoteCreateArgs>(args: SelectSubset<T, PersonalNoteCreateArgs<ExtArgs>>): Prisma__PersonalNoteClient<$Result.GetResult<Prisma.$PersonalNotePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PersonalNotes.
+     * @param {PersonalNoteCreateManyArgs} args - Arguments to create many PersonalNotes.
+     * @example
+     * // Create many PersonalNotes
+     * const personalNote = await prisma.personalNote.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PersonalNoteCreateManyArgs>(args?: SelectSubset<T, PersonalNoteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PersonalNotes and returns the data saved in the database.
+     * @param {PersonalNoteCreateManyAndReturnArgs} args - Arguments to create many PersonalNotes.
+     * @example
+     * // Create many PersonalNotes
+     * const personalNote = await prisma.personalNote.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PersonalNotes and only return the `id`
+     * const personalNoteWithIdOnly = await prisma.personalNote.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PersonalNoteCreateManyAndReturnArgs>(args?: SelectSubset<T, PersonalNoteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalNotePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PersonalNote.
+     * @param {PersonalNoteDeleteArgs} args - Arguments to delete one PersonalNote.
+     * @example
+     * // Delete one PersonalNote
+     * const PersonalNote = await prisma.personalNote.delete({
+     *   where: {
+     *     // ... filter to delete one PersonalNote
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PersonalNoteDeleteArgs>(args: SelectSubset<T, PersonalNoteDeleteArgs<ExtArgs>>): Prisma__PersonalNoteClient<$Result.GetResult<Prisma.$PersonalNotePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PersonalNote.
+     * @param {PersonalNoteUpdateArgs} args - Arguments to update one PersonalNote.
+     * @example
+     * // Update one PersonalNote
+     * const personalNote = await prisma.personalNote.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PersonalNoteUpdateArgs>(args: SelectSubset<T, PersonalNoteUpdateArgs<ExtArgs>>): Prisma__PersonalNoteClient<$Result.GetResult<Prisma.$PersonalNotePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PersonalNotes.
+     * @param {PersonalNoteDeleteManyArgs} args - Arguments to filter PersonalNotes to delete.
+     * @example
+     * // Delete a few PersonalNotes
+     * const { count } = await prisma.personalNote.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PersonalNoteDeleteManyArgs>(args?: SelectSubset<T, PersonalNoteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PersonalNotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalNoteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PersonalNotes
+     * const personalNote = await prisma.personalNote.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PersonalNoteUpdateManyArgs>(args: SelectSubset<T, PersonalNoteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PersonalNotes and returns the data updated in the database.
+     * @param {PersonalNoteUpdateManyAndReturnArgs} args - Arguments to update many PersonalNotes.
+     * @example
+     * // Update many PersonalNotes
+     * const personalNote = await prisma.personalNote.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PersonalNotes and only return the `id`
+     * const personalNoteWithIdOnly = await prisma.personalNote.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PersonalNoteUpdateManyAndReturnArgs>(args: SelectSubset<T, PersonalNoteUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalNotePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PersonalNote.
+     * @param {PersonalNoteUpsertArgs} args - Arguments to update or create a PersonalNote.
+     * @example
+     * // Update or create a PersonalNote
+     * const personalNote = await prisma.personalNote.upsert({
+     *   create: {
+     *     // ... data to create a PersonalNote
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PersonalNote we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PersonalNoteUpsertArgs>(args: SelectSubset<T, PersonalNoteUpsertArgs<ExtArgs>>): Prisma__PersonalNoteClient<$Result.GetResult<Prisma.$PersonalNotePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PersonalNotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalNoteCountArgs} args - Arguments to filter PersonalNotes to count.
+     * @example
+     * // Count the number of PersonalNotes
+     * const count = await prisma.personalNote.count({
+     *   where: {
+     *     // ... the filter for the PersonalNotes we want to count
+     *   }
+     * })
+    **/
+    count<T extends PersonalNoteCountArgs>(
+      args?: Subset<T, PersonalNoteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PersonalNoteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PersonalNote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalNoteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PersonalNoteAggregateArgs>(args: Subset<T, PersonalNoteAggregateArgs>): Prisma.PrismaPromise<GetPersonalNoteAggregateType<T>>
+
+    /**
+     * Group by PersonalNote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalNoteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PersonalNoteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PersonalNoteGroupByArgs['orderBy'] }
+        : { orderBy?: PersonalNoteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PersonalNoteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPersonalNoteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PersonalNote model
+   */
+  readonly fields: PersonalNoteFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PersonalNote.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PersonalNoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PersonalNote model
+   */
+  interface PersonalNoteFieldRefs {
+    readonly id: FieldRef<"PersonalNote", 'String'>
+    readonly filmId: FieldRef<"PersonalNote", 'String'>
+    readonly note: FieldRef<"PersonalNote", 'String'>
+    readonly userId: FieldRef<"PersonalNote", 'String'>
+    readonly createdAt: FieldRef<"PersonalNote", 'DateTime'>
+    readonly updatedAt: FieldRef<"PersonalNote", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PersonalNote findUnique
+   */
+  export type PersonalNoteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalNote
+     */
+    select?: PersonalNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalNote
+     */
+    omit?: PersonalNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which PersonalNote to fetch.
+     */
+    where: PersonalNoteWhereUniqueInput
+  }
+
+  /**
+   * PersonalNote findUniqueOrThrow
+   */
+  export type PersonalNoteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalNote
+     */
+    select?: PersonalNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalNote
+     */
+    omit?: PersonalNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which PersonalNote to fetch.
+     */
+    where: PersonalNoteWhereUniqueInput
+  }
+
+  /**
+   * PersonalNote findFirst
+   */
+  export type PersonalNoteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalNote
+     */
+    select?: PersonalNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalNote
+     */
+    omit?: PersonalNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which PersonalNote to fetch.
+     */
+    where?: PersonalNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PersonalNotes to fetch.
+     */
+    orderBy?: PersonalNoteOrderByWithRelationInput | PersonalNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PersonalNotes.
+     */
+    cursor?: PersonalNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PersonalNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PersonalNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PersonalNotes.
+     */
+    distinct?: PersonalNoteScalarFieldEnum | PersonalNoteScalarFieldEnum[]
+  }
+
+  /**
+   * PersonalNote findFirstOrThrow
+   */
+  export type PersonalNoteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalNote
+     */
+    select?: PersonalNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalNote
+     */
+    omit?: PersonalNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which PersonalNote to fetch.
+     */
+    where?: PersonalNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PersonalNotes to fetch.
+     */
+    orderBy?: PersonalNoteOrderByWithRelationInput | PersonalNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PersonalNotes.
+     */
+    cursor?: PersonalNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PersonalNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PersonalNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PersonalNotes.
+     */
+    distinct?: PersonalNoteScalarFieldEnum | PersonalNoteScalarFieldEnum[]
+  }
+
+  /**
+   * PersonalNote findMany
+   */
+  export type PersonalNoteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalNote
+     */
+    select?: PersonalNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalNote
+     */
+    omit?: PersonalNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalNoteInclude<ExtArgs> | null
+    /**
+     * Filter, which PersonalNotes to fetch.
+     */
+    where?: PersonalNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PersonalNotes to fetch.
+     */
+    orderBy?: PersonalNoteOrderByWithRelationInput | PersonalNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PersonalNotes.
+     */
+    cursor?: PersonalNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PersonalNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PersonalNotes.
+     */
+    skip?: number
+    distinct?: PersonalNoteScalarFieldEnum | PersonalNoteScalarFieldEnum[]
+  }
+
+  /**
+   * PersonalNote create
+   */
+  export type PersonalNoteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalNote
+     */
+    select?: PersonalNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalNote
+     */
+    omit?: PersonalNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalNoteInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PersonalNote.
+     */
+    data: XOR<PersonalNoteCreateInput, PersonalNoteUncheckedCreateInput>
+  }
+
+  /**
+   * PersonalNote createMany
+   */
+  export type PersonalNoteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PersonalNotes.
+     */
+    data: PersonalNoteCreateManyInput | PersonalNoteCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PersonalNote createManyAndReturn
+   */
+  export type PersonalNoteCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalNote
+     */
+    select?: PersonalNoteSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalNote
+     */
+    omit?: PersonalNoteOmit<ExtArgs> | null
+    /**
+     * The data used to create many PersonalNotes.
+     */
+    data: PersonalNoteCreateManyInput | PersonalNoteCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalNoteIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PersonalNote update
+   */
+  export type PersonalNoteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalNote
+     */
+    select?: PersonalNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalNote
+     */
+    omit?: PersonalNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalNoteInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PersonalNote.
+     */
+    data: XOR<PersonalNoteUpdateInput, PersonalNoteUncheckedUpdateInput>
+    /**
+     * Choose, which PersonalNote to update.
+     */
+    where: PersonalNoteWhereUniqueInput
+  }
+
+  /**
+   * PersonalNote updateMany
+   */
+  export type PersonalNoteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PersonalNotes.
+     */
+    data: XOR<PersonalNoteUpdateManyMutationInput, PersonalNoteUncheckedUpdateManyInput>
+    /**
+     * Filter which PersonalNotes to update
+     */
+    where?: PersonalNoteWhereInput
+    /**
+     * Limit how many PersonalNotes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PersonalNote updateManyAndReturn
+   */
+  export type PersonalNoteUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalNote
+     */
+    select?: PersonalNoteSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalNote
+     */
+    omit?: PersonalNoteOmit<ExtArgs> | null
+    /**
+     * The data used to update PersonalNotes.
+     */
+    data: XOR<PersonalNoteUpdateManyMutationInput, PersonalNoteUncheckedUpdateManyInput>
+    /**
+     * Filter which PersonalNotes to update
+     */
+    where?: PersonalNoteWhereInput
+    /**
+     * Limit how many PersonalNotes to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalNoteIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PersonalNote upsert
+   */
+  export type PersonalNoteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalNote
+     */
+    select?: PersonalNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalNote
+     */
+    omit?: PersonalNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalNoteInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PersonalNote to update in case it exists.
+     */
+    where: PersonalNoteWhereUniqueInput
+    /**
+     * In case the PersonalNote found by the `where` argument doesn't exist, create a new PersonalNote with this data.
+     */
+    create: XOR<PersonalNoteCreateInput, PersonalNoteUncheckedCreateInput>
+    /**
+     * In case the PersonalNote was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PersonalNoteUpdateInput, PersonalNoteUncheckedUpdateInput>
+  }
+
+  /**
+   * PersonalNote delete
+   */
+  export type PersonalNoteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalNote
+     */
+    select?: PersonalNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalNote
+     */
+    omit?: PersonalNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalNoteInclude<ExtArgs> | null
+    /**
+     * Filter which PersonalNote to delete.
+     */
+    where: PersonalNoteWhereUniqueInput
+  }
+
+  /**
+   * PersonalNote deleteMany
+   */
+  export type PersonalNoteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PersonalNotes to delete
+     */
+    where?: PersonalNoteWhereInput
+    /**
+     * Limit how many PersonalNotes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PersonalNote without action
+   */
+  export type PersonalNoteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalNote
+     */
+    select?: PersonalNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalNote
+     */
+    omit?: PersonalNoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalNoteInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -3214,6 +4413,18 @@ export namespace Prisma {
   };
 
   export type FavoriteScalarFieldEnum = (typeof FavoriteScalarFieldEnum)[keyof typeof FavoriteScalarFieldEnum]
+
+
+  export const PersonalNoteScalarFieldEnum: {
+    id: 'id',
+    filmId: 'filmId',
+    note: 'note',
+    userId: 'userId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PersonalNoteScalarFieldEnum = (typeof PersonalNoteScalarFieldEnum)[keyof typeof PersonalNoteScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -3304,6 +4515,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     favorites?: FavoriteListRelationFilter
+    personalNotes?: PersonalNoteListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -3317,6 +4529,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     favorites?: FavoriteOrderByRelationAggregateInput
+    personalNotes?: PersonalNoteOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -3333,6 +4546,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     favorites?: FavoriteListRelationFilter
+    personalNotes?: PersonalNoteListRelationFilter
   }, "id" | "email" | "resetToken">
 
   export type UserOrderByWithAggregationInput = {
@@ -3426,6 +4640,67 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Favorite"> | Date | string
   }
 
+  export type PersonalNoteWhereInput = {
+    AND?: PersonalNoteWhereInput | PersonalNoteWhereInput[]
+    OR?: PersonalNoteWhereInput[]
+    NOT?: PersonalNoteWhereInput | PersonalNoteWhereInput[]
+    id?: StringFilter<"PersonalNote"> | string
+    filmId?: StringFilter<"PersonalNote"> | string
+    note?: StringNullableFilter<"PersonalNote"> | string | null
+    userId?: StringFilter<"PersonalNote"> | string
+    createdAt?: DateTimeFilter<"PersonalNote"> | Date | string
+    updatedAt?: DateTimeFilter<"PersonalNote"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type PersonalNoteOrderByWithRelationInput = {
+    id?: SortOrder
+    filmId?: SortOrder
+    note?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type PersonalNoteWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId_filmId?: PersonalNoteUserIdFilmIdCompoundUniqueInput
+    AND?: PersonalNoteWhereInput | PersonalNoteWhereInput[]
+    OR?: PersonalNoteWhereInput[]
+    NOT?: PersonalNoteWhereInput | PersonalNoteWhereInput[]
+    filmId?: StringFilter<"PersonalNote"> | string
+    note?: StringNullableFilter<"PersonalNote"> | string | null
+    userId?: StringFilter<"PersonalNote"> | string
+    createdAt?: DateTimeFilter<"PersonalNote"> | Date | string
+    updatedAt?: DateTimeFilter<"PersonalNote"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId_filmId">
+
+  export type PersonalNoteOrderByWithAggregationInput = {
+    id?: SortOrder
+    filmId?: SortOrder
+    note?: SortOrderInput | SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PersonalNoteCountOrderByAggregateInput
+    _max?: PersonalNoteMaxOrderByAggregateInput
+    _min?: PersonalNoteMinOrderByAggregateInput
+  }
+
+  export type PersonalNoteScalarWhereWithAggregatesInput = {
+    AND?: PersonalNoteScalarWhereWithAggregatesInput | PersonalNoteScalarWhereWithAggregatesInput[]
+    OR?: PersonalNoteScalarWhereWithAggregatesInput[]
+    NOT?: PersonalNoteScalarWhereWithAggregatesInput | PersonalNoteScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PersonalNote"> | string
+    filmId?: StringWithAggregatesFilter<"PersonalNote"> | string
+    note?: StringNullableWithAggregatesFilter<"PersonalNote"> | string | null
+    userId?: StringWithAggregatesFilter<"PersonalNote"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"PersonalNote"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PersonalNote"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     firstName: string
@@ -3437,6 +4712,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     favorites?: FavoriteCreateNestedManyWithoutUserInput
+    personalNotes?: PersonalNoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -3450,6 +4726,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
+    personalNotes?: PersonalNoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -3463,6 +4740,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     favorites?: FavoriteUpdateManyWithoutUserNestedInput
+    personalNotes?: PersonalNoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -3476,6 +4754,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
+    personalNotes?: PersonalNoteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -3576,6 +4855,68 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PersonalNoteCreateInput = {
+    id?: string
+    filmId: string
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPersonalNotesInput
+  }
+
+  export type PersonalNoteUncheckedCreateInput = {
+    id?: string
+    filmId: string
+    note?: string | null
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PersonalNoteUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    filmId?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPersonalNotesNestedInput
+  }
+
+  export type PersonalNoteUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    filmId?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalNoteCreateManyInput = {
+    id?: string
+    filmId: string
+    note?: string | null
+    userId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PersonalNoteUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    filmId?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalNoteUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    filmId?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -3634,12 +4975,22 @@ export namespace Prisma {
     none?: FavoriteWhereInput
   }
 
+  export type PersonalNoteListRelationFilter = {
+    every?: PersonalNoteWhereInput
+    some?: PersonalNoteWhereInput
+    none?: PersonalNoteWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type FavoriteOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PersonalNoteOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -3780,6 +5131,38 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type PersonalNoteUserIdFilmIdCompoundUniqueInput = {
+    userId: string
+    filmId: string
+  }
+
+  export type PersonalNoteCountOrderByAggregateInput = {
+    id?: SortOrder
+    filmId?: SortOrder
+    note?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PersonalNoteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    filmId?: SortOrder
+    note?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PersonalNoteMinOrderByAggregateInput = {
+    id?: SortOrder
+    filmId?: SortOrder
+    note?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type FavoriteCreateNestedManyWithoutUserInput = {
     create?: XOR<FavoriteCreateWithoutUserInput, FavoriteUncheckedCreateWithoutUserInput> | FavoriteCreateWithoutUserInput[] | FavoriteUncheckedCreateWithoutUserInput[]
     connectOrCreate?: FavoriteCreateOrConnectWithoutUserInput | FavoriteCreateOrConnectWithoutUserInput[]
@@ -3787,11 +5170,25 @@ export namespace Prisma {
     connect?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
   }
 
+  export type PersonalNoteCreateNestedManyWithoutUserInput = {
+    create?: XOR<PersonalNoteCreateWithoutUserInput, PersonalNoteUncheckedCreateWithoutUserInput> | PersonalNoteCreateWithoutUserInput[] | PersonalNoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PersonalNoteCreateOrConnectWithoutUserInput | PersonalNoteCreateOrConnectWithoutUserInput[]
+    createMany?: PersonalNoteCreateManyUserInputEnvelope
+    connect?: PersonalNoteWhereUniqueInput | PersonalNoteWhereUniqueInput[]
+  }
+
   export type FavoriteUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<FavoriteCreateWithoutUserInput, FavoriteUncheckedCreateWithoutUserInput> | FavoriteCreateWithoutUserInput[] | FavoriteUncheckedCreateWithoutUserInput[]
     connectOrCreate?: FavoriteCreateOrConnectWithoutUserInput | FavoriteCreateOrConnectWithoutUserInput[]
     createMany?: FavoriteCreateManyUserInputEnvelope
     connect?: FavoriteWhereUniqueInput | FavoriteWhereUniqueInput[]
+  }
+
+  export type PersonalNoteUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<PersonalNoteCreateWithoutUserInput, PersonalNoteUncheckedCreateWithoutUserInput> | PersonalNoteCreateWithoutUserInput[] | PersonalNoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PersonalNoteCreateOrConnectWithoutUserInput | PersonalNoteCreateOrConnectWithoutUserInput[]
+    createMany?: PersonalNoteCreateManyUserInputEnvelope
+    connect?: PersonalNoteWhereUniqueInput | PersonalNoteWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -3824,6 +5221,20 @@ export namespace Prisma {
     deleteMany?: FavoriteScalarWhereInput | FavoriteScalarWhereInput[]
   }
 
+  export type PersonalNoteUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PersonalNoteCreateWithoutUserInput, PersonalNoteUncheckedCreateWithoutUserInput> | PersonalNoteCreateWithoutUserInput[] | PersonalNoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PersonalNoteCreateOrConnectWithoutUserInput | PersonalNoteCreateOrConnectWithoutUserInput[]
+    upsert?: PersonalNoteUpsertWithWhereUniqueWithoutUserInput | PersonalNoteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PersonalNoteCreateManyUserInputEnvelope
+    set?: PersonalNoteWhereUniqueInput | PersonalNoteWhereUniqueInput[]
+    disconnect?: PersonalNoteWhereUniqueInput | PersonalNoteWhereUniqueInput[]
+    delete?: PersonalNoteWhereUniqueInput | PersonalNoteWhereUniqueInput[]
+    connect?: PersonalNoteWhereUniqueInput | PersonalNoteWhereUniqueInput[]
+    update?: PersonalNoteUpdateWithWhereUniqueWithoutUserInput | PersonalNoteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PersonalNoteUpdateManyWithWhereWithoutUserInput | PersonalNoteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PersonalNoteScalarWhereInput | PersonalNoteScalarWhereInput[]
+  }
+
   export type FavoriteUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<FavoriteCreateWithoutUserInput, FavoriteUncheckedCreateWithoutUserInput> | FavoriteCreateWithoutUserInput[] | FavoriteUncheckedCreateWithoutUserInput[]
     connectOrCreate?: FavoriteCreateOrConnectWithoutUserInput | FavoriteCreateOrConnectWithoutUserInput[]
@@ -3838,6 +5249,20 @@ export namespace Prisma {
     deleteMany?: FavoriteScalarWhereInput | FavoriteScalarWhereInput[]
   }
 
+  export type PersonalNoteUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<PersonalNoteCreateWithoutUserInput, PersonalNoteUncheckedCreateWithoutUserInput> | PersonalNoteCreateWithoutUserInput[] | PersonalNoteUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: PersonalNoteCreateOrConnectWithoutUserInput | PersonalNoteCreateOrConnectWithoutUserInput[]
+    upsert?: PersonalNoteUpsertWithWhereUniqueWithoutUserInput | PersonalNoteUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: PersonalNoteCreateManyUserInputEnvelope
+    set?: PersonalNoteWhereUniqueInput | PersonalNoteWhereUniqueInput[]
+    disconnect?: PersonalNoteWhereUniqueInput | PersonalNoteWhereUniqueInput[]
+    delete?: PersonalNoteWhereUniqueInput | PersonalNoteWhereUniqueInput[]
+    connect?: PersonalNoteWhereUniqueInput | PersonalNoteWhereUniqueInput[]
+    update?: PersonalNoteUpdateWithWhereUniqueWithoutUserInput | PersonalNoteUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: PersonalNoteUpdateManyWithWhereWithoutUserInput | PersonalNoteUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: PersonalNoteScalarWhereInput | PersonalNoteScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutFavoritesInput = {
     create?: XOR<UserCreateWithoutFavoritesInput, UserUncheckedCreateWithoutFavoritesInput>
     connectOrCreate?: UserCreateOrConnectWithoutFavoritesInput
@@ -3850,6 +5275,20 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutFavoritesInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutFavoritesInput, UserUpdateWithoutFavoritesInput>, UserUncheckedUpdateWithoutFavoritesInput>
+  }
+
+  export type UserCreateNestedOneWithoutPersonalNotesInput = {
+    create?: XOR<UserCreateWithoutPersonalNotesInput, UserUncheckedCreateWithoutPersonalNotesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPersonalNotesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutPersonalNotesNestedInput = {
+    create?: XOR<UserCreateWithoutPersonalNotesInput, UserUncheckedCreateWithoutPersonalNotesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPersonalNotesInput
+    upsert?: UserUpsertWithoutPersonalNotesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPersonalNotesInput, UserUpdateWithoutPersonalNotesInput>, UserUncheckedUpdateWithoutPersonalNotesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -4012,6 +5451,32 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PersonalNoteCreateWithoutUserInput = {
+    id?: string
+    filmId: string
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PersonalNoteUncheckedCreateWithoutUserInput = {
+    id?: string
+    filmId: string
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PersonalNoteCreateOrConnectWithoutUserInput = {
+    where: PersonalNoteWhereUniqueInput
+    create: XOR<PersonalNoteCreateWithoutUserInput, PersonalNoteUncheckedCreateWithoutUserInput>
+  }
+
+  export type PersonalNoteCreateManyUserInputEnvelope = {
+    data: PersonalNoteCreateManyUserInput | PersonalNoteCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type FavoriteUpsertWithWhereUniqueWithoutUserInput = {
     where: FavoriteWhereUniqueInput
     update: XOR<FavoriteUpdateWithoutUserInput, FavoriteUncheckedUpdateWithoutUserInput>
@@ -4040,6 +5505,34 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Favorite"> | Date | string
   }
 
+  export type PersonalNoteUpsertWithWhereUniqueWithoutUserInput = {
+    where: PersonalNoteWhereUniqueInput
+    update: XOR<PersonalNoteUpdateWithoutUserInput, PersonalNoteUncheckedUpdateWithoutUserInput>
+    create: XOR<PersonalNoteCreateWithoutUserInput, PersonalNoteUncheckedCreateWithoutUserInput>
+  }
+
+  export type PersonalNoteUpdateWithWhereUniqueWithoutUserInput = {
+    where: PersonalNoteWhereUniqueInput
+    data: XOR<PersonalNoteUpdateWithoutUserInput, PersonalNoteUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PersonalNoteUpdateManyWithWhereWithoutUserInput = {
+    where: PersonalNoteScalarWhereInput
+    data: XOR<PersonalNoteUpdateManyMutationInput, PersonalNoteUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type PersonalNoteScalarWhereInput = {
+    AND?: PersonalNoteScalarWhereInput | PersonalNoteScalarWhereInput[]
+    OR?: PersonalNoteScalarWhereInput[]
+    NOT?: PersonalNoteScalarWhereInput | PersonalNoteScalarWhereInput[]
+    id?: StringFilter<"PersonalNote"> | string
+    filmId?: StringFilter<"PersonalNote"> | string
+    note?: StringNullableFilter<"PersonalNote"> | string | null
+    userId?: StringFilter<"PersonalNote"> | string
+    createdAt?: DateTimeFilter<"PersonalNote"> | Date | string
+    updatedAt?: DateTimeFilter<"PersonalNote"> | Date | string
+  }
+
   export type UserCreateWithoutFavoritesInput = {
     id?: string
     firstName: string
@@ -4050,6 +5543,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    personalNotes?: PersonalNoteCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutFavoritesInput = {
@@ -4062,6 +5556,7 @@ export namespace Prisma {
     resetTokenExpiry?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    personalNotes?: PersonalNoteUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutFavoritesInput = {
@@ -4090,6 +5585,7 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    personalNotes?: PersonalNoteUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFavoritesInput = {
@@ -4102,6 +5598,75 @@ export namespace Prisma {
     resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    personalNotes?: PersonalNoteUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutPersonalNotesInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    favorites?: FavoriteCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPersonalNotesInput = {
+    id?: string
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+    resetToken?: string | null
+    resetTokenExpiry?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    favorites?: FavoriteUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPersonalNotesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPersonalNotesInput, UserUncheckedCreateWithoutPersonalNotesInput>
+  }
+
+  export type UserUpsertWithoutPersonalNotesInput = {
+    update: XOR<UserUpdateWithoutPersonalNotesInput, UserUncheckedUpdateWithoutPersonalNotesInput>
+    create: XOR<UserCreateWithoutPersonalNotesInput, UserUncheckedCreateWithoutPersonalNotesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPersonalNotesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPersonalNotesInput, UserUncheckedUpdateWithoutPersonalNotesInput>
+  }
+
+  export type UserUpdateWithoutPersonalNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    favorites?: FavoriteUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPersonalNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    firstName?: StringFieldUpdateOperationsInput | string
+    lastName?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    resetToken?: NullableStringFieldUpdateOperationsInput | string | null
+    resetTokenExpiry?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    favorites?: FavoriteUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type FavoriteCreateManyUserInput = {
@@ -4110,6 +5675,14 @@ export namespace Prisma {
     filmTitle: string
     filmImage?: string | null
     createdAt?: Date | string
+  }
+
+  export type PersonalNoteCreateManyUserInput = {
+    id?: string
+    filmId: string
+    note?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type FavoriteUpdateWithoutUserInput = {
@@ -4134,6 +5707,30 @@ export namespace Prisma {
     filmTitle?: StringFieldUpdateOperationsInput | string
     filmImage?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalNoteUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    filmId?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalNoteUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    filmId?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalNoteUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    filmId?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

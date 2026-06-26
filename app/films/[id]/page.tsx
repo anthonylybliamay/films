@@ -9,6 +9,7 @@ import { trailers } from "@/lib/trailers";
 import { translations } from "@/lib/translations";
 import RatingBar from "@/components/RatingBar";
 import FavoriteButton from "@/components/FavoriteButton";
+import PersonalNoteField from "@/components/PersonalNoteField";
 
 type FilmProps = {
   params: Promise<{
@@ -201,14 +202,17 @@ export default function FilmDetailPage({ params }: FilmProps) {
                 </section>
               )}
               <RatingBar filmId={id} label={t.yourRating || "Your Rating"} />
-              <div className="rounded-3xl bg-[#fff3ea] p-5 flex items-center justify-between">
-                <p className="font-semibold text-slate-950">{t.addFavorite}</p>
-                <FavoriteButton
-                  filmId={id}
-                  filmTitle={film.title}
-                  filmImage={film.movie_banner}
-                  size="lg"
-                />
+              <div className="rounded-3xl bg-[#fff3ea] p-5">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="font-semibold text-slate-950">{t.addFavorite}</p>
+                  <FavoriteButton
+                    filmId={id}
+                    filmTitle={film.title}
+                    filmImage={film.movie_banner}
+                    size="lg"
+                  />
+                </div>
+                <PersonalNoteField filmId={id} />
               </div>
             </div>
           </aside>
