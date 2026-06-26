@@ -24,7 +24,7 @@ export async function sendPasswordResetEmail(
     <p><a href="${resetUrl}">${t.resetPasswordEmailButton}</a></p>
     <p>${t.resetPasswordEmailIgnore}</p>
   `;
-  const fromEmail = "onboarding@resend.dev";
+  const fromEmail = "info@anthonylybliamay.fr";
 
   try {
     const response = await resend.emails.send({
